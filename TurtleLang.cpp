@@ -14,7 +14,7 @@ Command commands[] = {
     Command{ "E", true, &moveEast },
     Command{ "S", true, &moveSouth },
     Command{ "W", true, &moveSouth },
-}
+};
 
 int penUp(int a) {
     std::cout << "Lifted pen\n";
