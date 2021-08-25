@@ -1,41 +1,62 @@
+#include "TurtleLang.h"
+
 #include <iostream>
 
-struct Command
+void penUp(int a);
+void penDown(int a);
+void moveNorth(int distance);
+void moveEast(int distance);
+void moveSouth(int distance);
+void moveWest(int distance);
+
+const Command commands[] = {
+    Command{ PEN_UP, 'U', false, &penUp },
+    Command{ PEN_DOWN, 'D', false, &penDown },
+    Command{ MOVE_NORTH, 'N', true, &moveNorth },
+    Command{ MOVE_EAST, 'E', true, &moveEast },
+    Command{ MOVE_SOUTH, 'S', true, &moveSouth },
+    Command{ MOVE_WEST, 'W', true, &moveWest },
+};
+
+Command lookupCmd(char code)
 {
-    int cmd;
-    bool hasArgs;
-    void (*action)(int);
-};
-
-Command commands[] = {
-    Command{ "U", false, &penUp },
-    Command{ "D", false, &penDown },
-    Command{ "N", true, &moveNorth },
-    Command{ "E", true, &moveEast },
-    Command{ "S", true, &moveSouth },
-    Command{ "W", true, &moveSouth },
-};
-
-int penUp(int a) {
+    int size {(int) (sizeof(commands)/sizeof(Command))};
+    for (int i {0}; i < size; i++) {
+	if (commands[i].code == code) {
+	    return commands[i];
+	}
+    }
+    
+    std::cout << "Error looking up code [" << code << "]\n";
+    exit(1);
+}
+    
+void penUp(int x)
+{
     std::cout << "Lifted pen\n";
 }
 
-int penDown(int a) {
+void penDown(int x)
+{
     std::cout << "Lowered pen\n";
 }
 
-int moveNorth(int distance) {
+void moveNorth(int distance)
+{
     std::cout << "Moved pen north (" << distance << ")\n";
 }
 
-int moveEast(int distance) {
+void moveEast(int distance)
+{
     std::cout << "Moved pen east (" << distance << ")\n";
 }
 
-int moveSouth(int distance) {
+void moveSouth(int distance)
+{
     std::cout << "Moved pen south (" << distance << ")\n";
 }
 
-int moveWest(int distance) {
+void moveWest(int distance)
+{
     std::cout << "Moved pen west (" << distance << ")\n";
 }
