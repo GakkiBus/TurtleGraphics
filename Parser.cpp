@@ -5,6 +5,10 @@
 #include <string>
 #include <regex>
 
+/*
+ * Statement ::= <char>(<space>+<positive integer>)?<space>*
+ * where the char is used to identify the instruction which may take a positive int as argument
+ */
 Action parseLine(std::string &statement)
 {
     const std::regex cmdRegex{"^([A-Z])(?:\\s+(\\d+))?\\s*"};
