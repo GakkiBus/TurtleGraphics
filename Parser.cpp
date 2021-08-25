@@ -1,23 +1,23 @@
+#include "Parser.h"
+#include "TurtleLang.h"
+
 #include <iostream>
-#include <ifstream>
 #include <string>
+#include <regex>
 
-int main(int argc, char *argv[])
+Action parseLine(std::string &statement)
 {
-    if (argc < 2) {
-	std::cout << "No inputfile given\n";
-	return 1;
-    }
-    parse(argv[1]);
-}
-
-void parse(char *path)
-{
-    std::ifsteam mysfile ("input.txt");
-    if (myfile.is_open()) {
-	string line;
-	while (getline(myfile, line)) {
-	    std::cout << line << '\n';
+    const std::regex cmdRegex{"^([A-Z])(?:\\s+(\\d+))?\\s*"};
+    std::smatch matches {};
+    if (std::regex_match(statement, matches, cmdRegex)) {
+	char code = matches[1].str()[0];
+	Command cmd{lookupCmd(code)};
+	Action action{cmd.action};
+	if (cmd.takesArgs && matches.size() == 3) {
+	    action.arg = std::stoi(matches[2].str());
 	}
+	return action;
     }
+    std::cout << "Error reading statement\n";
+    exit(1);
 }
