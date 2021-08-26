@@ -1,3 +1,6 @@
+# ifndef PARSER_H
+# define PARSER_H
+
 #include <string>
 
 struct Action
@@ -7,3 +10,5 @@ struct Action
 };
 
 Action parseLine(std::string &statement);
+
+# endif
