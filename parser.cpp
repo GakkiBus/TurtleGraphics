@@ -1,5 +1,5 @@
-#include "Parser.h"
-#include "TurtleLang.h"
+#include "parser.h"
+#include "turtlelang.h"
 
 #include <iostream>
 #include <string>
