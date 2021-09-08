@@ -12,11 +12,17 @@ class TurtleScene : public QGraphicsScene
 
 public:
     explicit TurtleScene(QObject *parent = 0);
-    ~TurtleScene();
+
+    void penDown();
+    void penUp();
+    void movePenX(int deltaX);
+    void movePenY(int deltaY);
 
 private:
-    bool isPenDown{false};
-    QPointF* penLocation;
+    bool isPenDown;
+    QPointF penLocation;
+
+    void movePen(int deltaX, int deltaY);
 };
 
 #endif
