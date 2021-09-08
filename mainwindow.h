@@ -3,9 +3,13 @@
 
 #include <QWidget>
 
-class QGridLayout;
+class QHBoxLayout;
 class TurtleScene;
 class QGraphicsView;
+class QGroupBox;
+class QVBoxLayout;
+class QTextEdit;
+class QPushButton;
 
 class MainWindow : public QWidget
 {
@@ -16,11 +20,17 @@ public:
     ~MainWindow();
 
 private:
-    QGridLayout* layout;
+    QHBoxLayout* layout;
     // scene where turtle graphic is drawn
     TurtleScene* turtleScene;
     // viewport of turtle graphic is displayed
     QGraphicsView* turtleView;
+    QGroupBox* menuBox;
+    QVBoxLayout* menuLayout;
+    QTextEdit* instructionEdit;
+    QPushButton* instructionConfirm;
+
+    void initializeMenu();
 };
 
 #endif
