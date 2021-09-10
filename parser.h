@@ -1,14 +1,15 @@
 # ifndef PARSER_H
 # define PARSER_H
 
+#include <vector>
 #include <string>
 
 struct Action
 {
-    void (*action)(int);
+    char code;
     int arg {0};
 };
 
-Action parseLine(std::string &statement);
+std::vector<Action> parseInput(std::string in);
 
 # endif

@@ -1,27 +1,36 @@
 #include "parser.h"
-#include "turtlelang.h"
 
-#include <iostream>
+#include <vector>
 #include <string>
-#include <regex>
+#include <sstream>
+
+Action parseLine(std::string line);
+
+std::vector<Action> parseInput(std::string in)
+{
+    std::vector<Action> actions{};
+    std::istringstream streamIn(in);
+    while (!streamIn.eof()) {
+        std::string line{};
+        getline(streamIn, line);
+        if (!line.empty())
+            actions.push_back(parseLine(line));
+    }
+    return actions;
+}
 
 /*
- * Statement ::= <char>(<space>+<positive integer>)?<space>*
- * where the char is used to identify the instruction which may take a positive int as argument
+ * Statement ::= <space>*<char>(<space>+<integer>)?<space>*
+ * where the char is used to identify the instruction 
+ * which may take a integers as arguments
  */
-Action parseLine(std::string &statement)
+Action parseLine(std::string line)
 {
-    const std::regex cmdRegex{"^([A-Z])(?:\\s+(\\d+))?\\s*"};
-    std::smatch matches {};
-    if (std::regex_match(statement, matches, cmdRegex)) {
-	char code = matches[1].str()[0];
-	Command cmd{lookupCmd(code)};
-	Action action{cmd.action};
-	if (cmd.takesArgs && matches.size() == 3) {
-	    action.arg = std::stoi(matches[2].str());
-	}
-	return action;
-    }
-    std::cout << "Error reading statement\n";
-    exit(1);
+    std::stringstream streamLine(line);
+    char code{};
+    streamLine >> code;
+    int arg{};
+    streamLine >> arg;
+    Action action{code, arg};
+    return action;
 }
