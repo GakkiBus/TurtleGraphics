@@ -1,7 +1,7 @@
-#ifndef TURTLE_LANG_H
-#define TURTLE_LANG_H
+#ifndef TURTLELANG_H
+#define TURTLELANG_H
 
-enum Instruction
+enum InstructionType
 {
     PEN_UP,
     PEN_DOWN,
@@ -13,12 +13,11 @@ enum Instruction
 
 struct Command
 {
-    Instruction instruction;
+    InstructionType type;
     char code;
-    bool takesArgs;
-    void (*action)(int);
+    bool takesArg;
 };
 
-Command lookupCmd(char code);
+Command lookupCommand(char code);
 
 #endif
