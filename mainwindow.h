@@ -1,6 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "parser.h"
+
 #include <QWidget>
 
 class QHBoxLayout;
@@ -31,6 +33,10 @@ private:
     QPushButton* instructionConfirm;
 
     void initializeMenu();
+    void execute(Action action);
+
+private slots:
+    void onButtonReleased();
 };
 
 #endif
