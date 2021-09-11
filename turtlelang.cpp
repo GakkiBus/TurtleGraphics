@@ -3,12 +3,13 @@
 #include <iostream>
 
 constexpr Command commands[] = {
-    Command{ PEN_UP,        'U',    false },
-    Command{ PEN_DOWN,      'D',    false },
-    Command{ MOVE_NORTH,    'N',    true },
-    Command{ MOVE_EAST,     'E',    true },
-    Command{ MOVE_SOUTH,    'S',    true },
-    Command{ MOVE_WEST,     'W',    true },
+    Command{ PEN_UP,            'U',    false },
+    Command{ PEN_DOWN,          'D',    false },
+    Command{ MOVE_NORTH,        'N',    true },
+    Command{ MOVE_EAST,         'E',    true },
+    Command{ MOVE_SOUTH,        'S',    true },
+    Command{ MOVE_WEST,         'W',    true },
+    Command{ CHANGE_ANGLE,      'R',    true },
 };
 
 Command lookupCommand(char code)
