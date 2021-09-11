@@ -13,12 +13,15 @@ class TurtleScene : public QGraphicsScene
 public:
     explicit TurtleScene(QObject *parent = 0);
 
+    void reset();
     void penDown();
     void penUp();
     void movePenX(int deltaX);
     void movePenY(int deltaY);
 
 private:
+    static constexpr bool defaultIsPenDown{true};
+    static constexpr QPointF defaultPenLocation{QPointF(0, 0)};
     bool isPenDown;
     QPointF penLocation;
 

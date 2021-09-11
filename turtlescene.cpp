@@ -3,8 +3,14 @@
 TurtleScene::TurtleScene(QObject *parent)
     : QGraphicsScene(parent)
 {
-    isPenDown = false;
-    penLocation = QPointF(0, 0);
+    reset();
+}
+
+void TurtleScene::reset()
+{
+    clear();
+    isPenDown = defaultIsPenDown;
+    penLocation = QPointF(defaultPenLocation);
 }
 
 void TurtleScene::penDown()
