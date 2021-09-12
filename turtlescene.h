@@ -18,14 +18,21 @@ public:
     void penUp();
     void movePenX(int deltaX);
     void movePenY(int deltaY);
+    void setAngle(int theta);
 
 private:
+    // amount of pixels moved per instruction unit
+    static constexpr int defaultPixelScale{10};
     static constexpr bool defaultIsPenDown{true};
     static constexpr QPointF defaultPenLocation{QPointF(0, 0)};
+    static constexpr int defaultAngle{0};
+
+    int pixelScale;
     bool isPenDown;
     QPointF penLocation;
+    int angle;
 
-    void movePen(int deltaX, int deltaY);
+    void movePen(int deltaX, int deltaY, int angleOffset);
 };
 
 #endif

@@ -71,5 +71,9 @@ void MainWindow::execute(Action action)
             break;
         case MOVE_WEST:
             turtleScene->movePenX(-action.arg);
+            break;
+        case SET_ANGLE:
+            turtleScene->setAngle(action.arg);
+            break;
     }
 }

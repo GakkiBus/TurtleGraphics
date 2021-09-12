@@ -9,6 +9,7 @@ enum InstructionType
     MOVE_EAST,
     MOVE_SOUTH,
     MOVE_WEST,
+    SET_ANGLE,
 };
 
 struct Command

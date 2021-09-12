@@ -9,8 +9,10 @@ TurtleScene::TurtleScene(QObject *parent)
 void TurtleScene::reset()
 {
     clear();
+    pixelScale = defaultPixelScale;
     isPenDown = defaultIsPenDown;
     penLocation = QPointF(defaultPenLocation);
+    angle = defaultAngle;
 }
 
 void TurtleScene::penDown()
@@ -25,22 +27,33 @@ void TurtleScene::penUp()
 
 void TurtleScene::movePenX(int deltaX)
 {
-    movePen(deltaX, 0);
+    movePen(deltaX, 0, (deltaX < 0) ? 180 : 0);
 }
 
 void TurtleScene::movePenY(int deltaY)
 {
-    movePen(0, deltaY);
+    movePen(0, deltaY, (deltaY < 0) ? 90 : 270);
 }
 
-void TurtleScene::movePen(int deltaX, int deltaY)
+void TurtleScene::setAngle(int theta)
 {
-    QPointF newLocation = penLocation + QPointF(deltaX, deltaY);
+    angle = theta;
+}
+
+/*
+ * In addition to the angle specified through instructions, an offset is needed
+ * since angles in qt are relative to the x-axis
+*/
+void TurtleScene::movePen(int deltaX, int deltaY, int angleOffset)
+{
+    QPointF newLocation = penLocation + pixelScale * QPointF(deltaX, deltaY);
     QLineF line = QLineF(penLocation, newLocation);
+    // clockwise roation of new point by specified angle
+    line.setAngle(angleOffset + angle);
     QPen pen = QPen();
     if (!isPenDown)
         pen.setColor(QColorConstants::Transparent);
 
     addLine(line, pen);
-    penLocation = newLocation;
+    penLocation = line.p2();
 }
