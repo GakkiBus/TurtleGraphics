@@ -1,11 +1,6 @@
-#include "parser.h"
 #include "mainwindow.h"
 
 #include <QtWidgets>
-
-#include <iostream>
-#include <fstream>
-
 
 int main(int argc, char *argv[])
 {
