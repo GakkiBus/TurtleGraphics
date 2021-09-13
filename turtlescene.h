@@ -22,7 +22,7 @@ public:
 
 private:
     // amount of pixels moved per instruction unit
-    static constexpr int defaultPixelScale{10};
+    static constexpr int defaultPixelScale{1};
     static constexpr bool defaultIsPenDown{true};
     static constexpr QPointF defaultPenLocation{QPointF(0, 0)};
     static constexpr int defaultAngle{0};
