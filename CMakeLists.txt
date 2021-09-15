@@ -17,6 +17,7 @@ add_executable(TurtleGraphic
     turtlelang.cpp
     mainwindow.cpp
     turtlescene.cpp
+    instruction.cpp
 )
 
 target_link_libraries(TurtleGraphic 

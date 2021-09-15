@@ -1,6 +1,8 @@
 #ifndef TURTLELANG_H
 #define TURTLELANG_H
 
+#include <string>
+
 enum InstructionType
 {
     PEN_UP,
@@ -9,16 +11,16 @@ enum InstructionType
     MOVE_EAST,
     MOVE_SOUTH,
     MOVE_WEST,
-    SET_ANGLE,
+    ROTATE,
 };
 
 struct Command
 {
     InstructionType type;
-    char code;
+    std::string code;
     bool takesArg;
 };
 
-Command lookupCommand(char code);
+Command lookupCommand(std::string code);
 
 #endif

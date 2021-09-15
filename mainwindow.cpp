@@ -2,6 +2,7 @@
 #include "turtlescene.h"
 #include "parser.h"
 #include "turtlelang.h"
+#include "instruction.h"
 
 #include <QtWidgets>
 #include <vector>
@@ -45,35 +46,8 @@ void MainWindow::initializeMenu()
 void MainWindow::onButtonReleased()
 {
     turtleScene->reset();
-    std::vector<Action> actions{parseInput(instructionEdit->toPlainText().toStdString())};
-    for (Action action : actions) {
-        execute(action);
-    }
-}
-
-void MainWindow::execute(Action action)
-{
-    switch (lookupCommand(action.code).type) {
-        case PEN_UP:
-            turtleScene->penUp();
-            break;
-        case PEN_DOWN:
-            turtleScene->penDown();
-            break;
-        case MOVE_NORTH:
-            turtleScene->movePenY(-action.arg);
-            break;
-        case MOVE_EAST:
-            turtleScene->movePenX(action.arg);
-            break;
-        case MOVE_SOUTH:
-            turtleScene->movePenY(action.arg);
-            break;
-        case MOVE_WEST:
-            turtleScene->movePenX(-action.arg);
-            break;
-        case SET_ANGLE:
-            turtleScene->setAngle(action.arg);
-            break;
+    std::vector<std::unique_ptr<Instruction>> instructions{parseInput(instructionEdit->toPlainText().toStdString())};
+    for (auto &instruction : instructions) {
+        instruction->executeInstruction(turtleScene);
     }
 }

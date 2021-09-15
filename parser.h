@@ -1,15 +1,16 @@
 # ifndef PARSER_H
 # define PARSER_H
 
+#include "instruction.h"
+
 #include <vector>
 #include <string>
+#include <sstream>
 
-struct Action
-{
-    char code;
-    int arg {0};
-};
+std::vector<std::unique_ptr<Instruction>> parseInput(std::string in);
 
-std::vector<Action> parseInput(std::string in);
+static std::unique_ptr<Instruction> parseInstruction(std::string parseString);
+static std::unique_ptr<Instruction> parsePenInstruction(InstructionType type, std::istringstream& parseStream);
+static std::unique_ptr<Instruction> parseMoveInstruction(InstructionType type, std::istringstream& parseStream);
 
 # endif
