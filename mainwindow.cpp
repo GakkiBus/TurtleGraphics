@@ -24,13 +24,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(instructionConfirm, SIGNAL(released()), this, SLOT(onButtonReleased()));
 }
 
-MainWindow::~MainWindow()
-{
-    delete turtleScene;
-    delete turtleView;
-    delete layout;
-}
-
 void MainWindow::initializeMenu()
 {
     menuBox = new QGroupBox();

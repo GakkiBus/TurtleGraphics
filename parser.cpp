@@ -21,8 +21,8 @@ std::vector<std::unique_ptr<Instruction>> parseInput(std::string in)
 }
 
 /*
- * Statement ::= <space>*<char>(<space>+<integer>)?<space>*
- * where the char is used to identify the instruction 
+ * Statement ::= <space>*<string>(<space>+<integer>)?<space>*
+ * where the string is used to identify the instruction
  * which may take a integers as arguments
  */
 static std::unique_ptr<Instruction> parseInstruction(std::string parseString)
@@ -49,7 +49,6 @@ static std::unique_ptr<Instruction> parseInstruction(std::string parseString)
 
 static std::unique_ptr<Instruction> parsePenInstruction(InstructionType type, std::istringstream& parseStream)
 {
-    /* return std::unique_ptr<Instruction>(PenInstruction(type)); */
     return std::make_unique<PenInstruction>(type);
 }
 
@@ -57,6 +56,5 @@ static std::unique_ptr<Instruction> parseMoveInstruction(InstructionType type, s
 {
    int unitsMoved{};
    parseStream >> unitsMoved;
-   /* return std::unique_ptr<Instruction>(MoveInstruction(type, unitsMoved)); */
     return std::make_unique<MoveInstruction>(type, unitsMoved);
 }

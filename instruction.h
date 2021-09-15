@@ -4,6 +4,7 @@
 #include "turtlescene.h"
 #include "turtlelang.h"
 
+// Class instanced are used to execute parsed Instructions
 class Instruction
 {
 public:

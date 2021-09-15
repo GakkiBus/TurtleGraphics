@@ -18,7 +18,6 @@ struct Command
 {
     InstructionType type;
     std::string code;
-    bool takesArg;
 };
 
 Command lookupCommand(std::string code);
