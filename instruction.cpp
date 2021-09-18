@@ -4,7 +4,6 @@
 
 #include <map>
 #include <string>
-#include <iostream>
 
 std::map<std::string, int> Instruction::state{};
 
@@ -26,6 +25,22 @@ int Instruction::lookupState(std::string varname)
     } else {
         return 0;
     }
+}
+
+InstructionType Instruction::getType()
+{
+    return type;
+}
+
+
+HaltInstruction::HaltInstruction(InstructionType type)
+{
+    this->type = type;
+}
+
+void HaltInstruction::executeInstruction(TurtleScene* turtleScene)
+{
+    resetState();
 }
 
 
@@ -72,6 +87,36 @@ void MoveInstruction::executeInstruction(TurtleScene* turtleScene)
             break;
         case ROTATE:
             turtleScene->setRotationAngle(unitsMoved);
+            break;
+    }
+}
+
+
+VarInstruction::VarInstruction(InstructionType type, std::string varname, int value)
+{
+    this->type = type;
+    this->varname = varname;
+    this->value = value;
+}
+
+void VarInstruction::executeInstruction(TurtleScene* turtleScene)
+{
+    switch (type)
+    {
+        case VAR_INC:
+        {
+            int oldValue{lookupState(varname)};
+            updateState(varname, oldValue + 1);
+            break;
+        }
+        case VAR_DEC:
+        {
+            int oldValue{lookupState(varname)};
+            updateState(varname, oldValue - 1);
+            break;
+        }
+        case VAR_SET:
+            updateState(varname, value);
             break;
     }
 }

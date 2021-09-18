@@ -6,6 +6,7 @@
 #include <string>
 #include <sstream>
 #include <memory>
+#include <iostream>
 
 std::vector<std::unique_ptr<Instruction>> parseInput(std::string in)
 {
@@ -17,6 +18,9 @@ std::vector<std::unique_ptr<Instruction>> parseInput(std::string in)
         if (!line.empty())
             instructions.push_back(parseInstruction(line));
     }
+    
+    // automatically insert HALT instruction for last statement
+    instructions.push_back(std::make_unique<HaltInstruction>(HALT));
     return instructions;
 }
 
@@ -34,6 +38,8 @@ static std::unique_ptr<Instruction> parseInstruction(std::string parseString)
     Command command{lookupCommand(code)};
     switch (command.type)
     {
+        case HALT:
+            return parseHaltInstruction(command.type, parseStream);
         case PEN_UP:
         case PEN_DOWN:
             return parsePenInstruction(command.type, parseStream); 
@@ -43,8 +49,17 @@ static std::unique_ptr<Instruction> parseInstruction(std::string parseString)
         case MOVE_WEST:
         case ROTATE:
             return parseMoveInstruction(command.type, parseStream);
+        case VAR_SET:
+        case VAR_INC:
+        case VAR_DEC:
+            return parseVarInstruction(command.type, parseStream);
     }
     exit(1);
+}
+
+static std::unique_ptr<Instruction> parseHaltInstruction(InstructionType type, std::istringstream& parseStream)
+{
+    return std::make_unique<HaltInstruction>(type);
 }
 
 static std::unique_ptr<Instruction> parsePenInstruction(InstructionType type, std::istringstream& parseStream)
@@ -54,7 +69,16 @@ static std::unique_ptr<Instruction> parsePenInstruction(InstructionType type, st
 
 static std::unique_ptr<Instruction> parseMoveInstruction(InstructionType type, std::istringstream& parseStream)
 {
-   int unitsMoved{};
-   parseStream >> unitsMoved;
+    int unitsMoved{};
+    parseStream >> unitsMoved;
     return std::make_unique<MoveInstruction>(type, unitsMoved);
+}
+
+static std::unique_ptr<Instruction> parseVarInstruction(InstructionType type, std::istringstream& parseStream)
+{
+    std::string varname{};
+    parseStream >> varname;
+    int value{};
+    parseStream >> value;
+    return std::make_unique<VarInstruction>(type, varname, value);
 }

@@ -5,6 +5,7 @@
 
 enum InstructionType
 {
+    HALT,
     PEN_UP,
     PEN_DOWN,
     MOVE_NORTH,
@@ -12,6 +13,9 @@ enum InstructionType
     MOVE_SOUTH,
     MOVE_WEST,
     ROTATE,
+    VAR_SET,
+    VAR_INC,
+    VAR_DEC,
 };
 
 struct Command

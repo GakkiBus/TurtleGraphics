@@ -42,5 +42,8 @@ void MainWindow::onButtonReleased()
     std::vector<std::unique_ptr<Instruction>> instructions{parseInput(instructionEdit->toPlainText().toStdString())};
     for (auto &instruction : instructions) {
         instruction->executeInstruction(turtleScene);
+
+        if (instruction->getType() == HALT)
+            break;
     }
 }

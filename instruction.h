@@ -7,7 +7,7 @@
 #include <map>
 #include <string>
 
-// Class instanced are used to execute parsed Instructions
+// Class instanced are used to execute parsed instructions
 class Instruction
 {
 
@@ -20,12 +20,21 @@ private:
 public:
     virtual ~Instruction() = default;
     virtual void executeInstruction(TurtleScene* turtleScene) = 0;
-    void resetState();
+    InstructionType getType();
 
 protected:
     InstructionType type;
     void updateState(std::string varname, int value);
     int lookupState(std::string varname);
+    void resetState();
+};
+
+class HaltInstruction : public Instruction
+{
+public:
+    HaltInstruction(InstructionType type);
+    ~HaltInstruction() {};
+    void executeInstruction(TurtleScene* turtleScene);
 };
 
 class PenInstruction : public Instruction
@@ -45,6 +54,18 @@ public:
 
 private:
     int unitsMoved;
+};
+
+class VarInstruction : public Instruction
+{
+public:
+    VarInstruction(InstructionType type, std::string varname, int value = 0);
+    ~VarInstruction() {};
+    void executeInstruction(TurtleScene* turtleScene);
+
+private:
+    std::string varname;
+    int value;
 };
 
 #endif
