@@ -2,6 +2,33 @@
 #include "turtlelang.h"
 #include "turtlescene.h"
 
+#include <map>
+#include <string>
+#include <iostream>
+
+std::map<std::string, int> Instruction::state{};
+
+void Instruction::resetState()
+{
+    state.clear();
+}
+
+void Instruction::updateState(std::string varname, int value)
+{
+    state.insert_or_assign(varname, value);
+}
+
+int Instruction::lookupState(std::string varname)
+{
+    auto search{state.find(varname)};
+    if (search != state.end()) {
+        return search->second;
+    } else {
+        return 0;
+    }
+}
+
+
 PenInstruction::PenInstruction(InstructionType type)
 {
     this->type = type;
