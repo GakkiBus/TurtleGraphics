@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
     layout->addWidget(turtleView, 66);
     layout->addWidget(menuBox, 33);
     setLayout(layout);
-    setWindowTitle("Turtle Graphics");
+    setWindowTitle("TurtleGraphics");
 
     connect(instructionConfirm, SIGNAL(released()), this, SLOT(onButtonReleased()));
 }
