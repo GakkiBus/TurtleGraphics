@@ -9,6 +9,8 @@
 
 std::vector<std::unique_ptr<Instruction>> parseInput(std::string in);
 
+constexpr int variablePrefix{'$'};
+
 static std::unique_ptr<Instruction> parseInstruction(std::string parseString);
 static std::unique_ptr<Instruction> parseHaltInstruction(InstructionType type, std::istringstream& parseStream);
 static std::unique_ptr<Instruction> parsePenInstruction(InstructionType type, std::istringstream& parseStream);

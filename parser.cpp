@@ -6,7 +6,6 @@
 #include <string>
 #include <sstream>
 #include <memory>
-#include <iostream>
 
 std::vector<std::unique_ptr<Instruction>> parseInput(std::string in)
 {
@@ -19,7 +18,7 @@ std::vector<std::unique_ptr<Instruction>> parseInput(std::string in)
             instructions.push_back(parseInstruction(line));
     }
     
-    // automatically insert HALT instruction for last statement
+    // insert HALT instruction as last statement
     instructions.push_back(std::make_unique<HaltInstruction>(HALT));
     return instructions;
 }
@@ -57,6 +56,11 @@ static std::unique_ptr<Instruction> parseInstruction(std::string parseString)
     exit(1);
 }
 
+static bool isVarname(const std::string& literal)
+{
+    return literal[0] == variablePrefix;
+}
+
 static std::unique_ptr<Instruction> parseHaltInstruction(InstructionType type, std::istringstream& parseStream)
 {
     return std::make_unique<HaltInstruction>(type);
@@ -69,16 +73,26 @@ static std::unique_ptr<Instruction> parsePenInstruction(InstructionType type, st
 
 static std::unique_ptr<Instruction> parseMoveInstruction(InstructionType type, std::istringstream& parseStream)
 {
-    int unitsMoved{};
-    parseStream >> unitsMoved;
-    return std::make_unique<MoveInstruction>(type, unitsMoved);
+    std::string literal{};
+    parseStream >> literal;
+    if (isVarname(literal)) {
+        literal.erase(0, 1);
+        return std::make_unique<MoveInstruction>(type, 0, literal);
+    } else {
+        return std::make_unique<MoveInstruction>(type, std::stoi(literal));
+    }
 }
 
 static std::unique_ptr<Instruction> parseVarInstruction(InstructionType type, std::istringstream& parseStream)
 {
     std::string varname{};
     parseStream >> varname;
-    int value{};
-    parseStream >> value;
-    return std::make_unique<VarInstruction>(type, varname, value);
+    std::string literal{};
+    parseStream >> literal;
+    if (isVarname(literal)) {
+        literal.erase(0, 1);
+        return std::make_unique<VarInstruction>(type, varname, 0, literal);
+    } else {
+        return std::make_unique<VarInstruction>(type, varname, std::stoi(literal));
+    }
 }

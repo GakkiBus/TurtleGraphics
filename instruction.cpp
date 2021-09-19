@@ -63,14 +63,16 @@ void PenInstruction::executeInstruction(TurtleScene* turtleScene)
 }
 
 
-MoveInstruction::MoveInstruction(InstructionType type, int unitsMoved)
+MoveInstruction::MoveInstruction(InstructionType type, int unitsMoved, const std::string& argVarname)
 {
     this->type = type;
     this->unitsMoved = unitsMoved;
+    this->argVarname = argVarname;
 }
 
 void MoveInstruction::executeInstruction(TurtleScene* turtleScene)
 {
+    int unitsMoved{(!argVarname.empty()) ? lookupState(argVarname) : this->unitsMoved};
     switch (type)
     {
         case MOVE_NORTH:
@@ -92,27 +94,29 @@ void MoveInstruction::executeInstruction(TurtleScene* turtleScene)
 }
 
 
-VarInstruction::VarInstruction(InstructionType type, std::string varname, int value)
+VarInstruction::VarInstruction(InstructionType type, const std::string& varname, int value, const std::string& argVarname)
 {
     this->type = type;
     this->varname = varname;
     this->value = value;
+    this->argVarname = argVarname;
 }
 
 void VarInstruction::executeInstruction(TurtleScene* turtleScene)
 {
+    int value{(!argVarname.empty()) ? lookupState(argVarname) : this->value};
     switch (type)
     {
         case VAR_INC:
         {
             int oldValue{lookupState(varname)};
-            updateState(varname, oldValue + 1);
+            updateState(varname, oldValue + value);
             break;
         }
         case VAR_DEC:
         {
             int oldValue{lookupState(varname)};
-            updateState(varname, oldValue - 1);
+            updateState(varname, oldValue - value);
             break;
         }
         case VAR_SET:

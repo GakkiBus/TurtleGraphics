@@ -48,24 +48,26 @@ public:
 class MoveInstruction : public Instruction
 {
 public:
-    MoveInstruction(InstructionType type, int distance);
+    MoveInstruction(InstructionType type, int distance = 0, const std::string& argVarname = "");
     ~MoveInstruction() {};
     void executeInstruction(TurtleScene* scene);
 
 private:
     int unitsMoved;
+    std::string argVarname;
 };
 
 class VarInstruction : public Instruction
 {
 public:
-    VarInstruction(InstructionType type, std::string varname, int value = 0);
+    VarInstruction(InstructionType type, const std::string& varname, int value = 0, const std::string& argVarname = "");
     ~VarInstruction() {};
     void executeInstruction(TurtleScene* turtleScene);
 
 private:
     std::string varname;
     int value;
+    std::string argVarname;
 };
 
 #endif
