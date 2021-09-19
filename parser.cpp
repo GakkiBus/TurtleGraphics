@@ -7,6 +7,13 @@
 #include <sstream>
 #include <memory>
 
+static bool isVarname(const std::string& literal);
+static std::unique_ptr<Instruction> parseInstruction(const std::string& parseString);
+static std::unique_ptr<Instruction> parseHaltInstruction(InstructionType type, std::istringstream& parseStream);
+static std::unique_ptr<Instruction> parsePenInstruction(InstructionType type, std::istringstream& parseStream);
+static std::unique_ptr<Instruction> parseMoveInstruction(InstructionType type, std::istringstream& parseStream);
+static std::unique_ptr<Instruction> parseVarInstruction(InstructionType type, std::istringstream& parseStream);
+
 std::vector<std::unique_ptr<Instruction>> parseInput(std::string in)
 {
     std::vector<std::unique_ptr<Instruction>> instructions{};
@@ -28,7 +35,7 @@ std::vector<std::unique_ptr<Instruction>> parseInput(std::string in)
  * where the string is used to identify the instruction
  * which may take a integers as arguments
  */
-static std::unique_ptr<Instruction> parseInstruction(std::string parseString)
+static std::unique_ptr<Instruction> parseInstruction(const std::string& parseString)
 {
     std::istringstream parseStream(parseString);
     std::string code{};
@@ -61,12 +68,12 @@ static bool isVarname(const std::string& literal)
     return literal[0] == variablePrefix;
 }
 
-static std::unique_ptr<Instruction> parseHaltInstruction(InstructionType type, std::istringstream& parseStream)
+static std::unique_ptr<Instruction> parseHaltInstruction(InstructionType type, std::istringstream&)
 {
     return std::make_unique<HaltInstruction>(type);
 }
 
-static std::unique_ptr<Instruction> parsePenInstruction(InstructionType type, std::istringstream& parseStream)
+static std::unique_ptr<Instruction> parsePenInstruction(InstructionType type, std::istringstream&)
 {
     return std::make_unique<PenInstruction>(type);
 }

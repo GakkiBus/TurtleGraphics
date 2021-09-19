@@ -32,7 +32,7 @@ InstructionType Instruction::getType()
     return type;
 }
 
-void HaltInstruction::executeInstruction(TurtleScene* turtleScene)
+void HaltInstruction::executeInstruction(TurtleScene*)
 {
     resetState();
 }
@@ -47,6 +47,8 @@ void PenInstruction::executeInstruction(TurtleScene* turtleScene)
         case PEN_UP:
             turtleScene->penUp();
             break;
+        default:
+            exit(1);
     }
 }
 
@@ -70,10 +72,12 @@ void MoveInstruction::executeInstruction(TurtleScene* turtleScene)
         case ROTATE:
             turtleScene->setRotationAngle(unitsMoved);
             break;
+        default:
+            exit(1);
     }
 }
 
-void VarInstruction::executeInstruction(TurtleScene* turtleScene)
+void VarInstruction::executeInstruction(TurtleScene*)
 {
     int value{(!argVarname.empty()) ? lookupState(argVarname) : this->value};
     switch (type)
@@ -93,5 +97,7 @@ void VarInstruction::executeInstruction(TurtleScene* turtleScene)
         case VAR_SET:
             updateState(varname, value);
             break;
+        default:
+            exit(1);
     }
 }

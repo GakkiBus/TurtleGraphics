@@ -19,7 +19,6 @@ Command commands[] = {
 
 Command lookupCommand(std::string code)
 {
-    int size {(int) (sizeof(commands)/sizeof(Command))};
     for (Command command : commands)
     {
         if (command.code == code)
