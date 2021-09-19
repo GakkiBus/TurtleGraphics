@@ -18,6 +18,7 @@ private:
     static std::map<std::string, int> state;
 
 public:
+    Instruction(InstructionType type) : type{type} {}
     virtual ~Instruction() = default;
     virtual void executeInstruction(TurtleScene* turtleScene) = 0;
     InstructionType getType();
@@ -32,7 +33,7 @@ protected:
 class HaltInstruction : public Instruction
 {
 public:
-    HaltInstruction(InstructionType type);
+    HaltInstruction(InstructionType type) : Instruction{type} {}
     ~HaltInstruction() {};
     void executeInstruction(TurtleScene* turtleScene);
 };
@@ -40,7 +41,7 @@ public:
 class PenInstruction : public Instruction
 {
 public:
-    PenInstruction(InstructionType type);
+    PenInstruction(InstructionType type) : Instruction{type} {}
     ~PenInstruction() {};
     void executeInstruction(TurtleScene* turtleScene);
 };
@@ -48,7 +49,10 @@ public:
 class MoveInstruction : public Instruction
 {
 public:
-    MoveInstruction(InstructionType type, int distance = 0, const std::string& argVarname = "");
+    MoveInstruction(InstructionType type, int unitsMoved)
+        : Instruction{type}, unitsMoved{unitsMoved}, argVarname{} {}
+    MoveInstruction(InstructionType type, const std::string& argVarname)
+        : Instruction{type}, unitsMoved{}, argVarname{argVarname} {}
     ~MoveInstruction() {};
     void executeInstruction(TurtleScene* scene);
 
@@ -60,7 +64,10 @@ private:
 class VarInstruction : public Instruction
 {
 public:
-    VarInstruction(InstructionType type, const std::string& varname, int value = 0, const std::string& argVarname = "");
+    VarInstruction(InstructionType type, const std::string& varname, int value)
+        : Instruction{type}, varname{varname}, value{value}, argVarname{} {}
+    VarInstruction(InstructionType type, const std::string& varname, const std::string& argVarname)
+        : Instruction{type}, varname{varname}, value{}, argVarname{argVarname} {}
     ~VarInstruction() {};
     void executeInstruction(TurtleScene* turtleScene);
 

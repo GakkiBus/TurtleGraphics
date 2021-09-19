@@ -76,8 +76,7 @@ static std::unique_ptr<Instruction> parseMoveInstruction(InstructionType type, s
     std::string literal{};
     parseStream >> literal;
     if (isVarname(literal)) {
-        literal.erase(0, 1);
-        return std::make_unique<MoveInstruction>(type, 0, literal);
+        return std::make_unique<MoveInstruction>(type, literal.substr(1));
     } else {
         return std::make_unique<MoveInstruction>(type, std::stoi(literal));
     }
@@ -90,8 +89,7 @@ static std::unique_ptr<Instruction> parseVarInstruction(InstructionType type, st
     std::string literal{};
     parseStream >> literal;
     if (isVarname(literal)) {
-        literal.erase(0, 1);
-        return std::make_unique<VarInstruction>(type, varname, 0, literal);
+        return std::make_unique<VarInstruction>(type, varname, literal.substr(1));
     } else {
         return std::make_unique<VarInstruction>(type, varname, std::stoi(literal));
     }

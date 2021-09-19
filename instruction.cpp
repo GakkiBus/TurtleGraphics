@@ -32,21 +32,9 @@ InstructionType Instruction::getType()
     return type;
 }
 
-
-HaltInstruction::HaltInstruction(InstructionType type)
-{
-    this->type = type;
-}
-
 void HaltInstruction::executeInstruction(TurtleScene* turtleScene)
 {
     resetState();
-}
-
-
-PenInstruction::PenInstruction(InstructionType type)
-{
-    this->type = type;
 }
 
 void PenInstruction::executeInstruction(TurtleScene* turtleScene)
@@ -60,14 +48,6 @@ void PenInstruction::executeInstruction(TurtleScene* turtleScene)
             turtleScene->penUp();
             break;
     }
-}
-
-
-MoveInstruction::MoveInstruction(InstructionType type, int unitsMoved, const std::string& argVarname)
-{
-    this->type = type;
-    this->unitsMoved = unitsMoved;
-    this->argVarname = argVarname;
 }
 
 void MoveInstruction::executeInstruction(TurtleScene* turtleScene)
@@ -91,15 +71,6 @@ void MoveInstruction::executeInstruction(TurtleScene* turtleScene)
             turtleScene->setRotationAngle(unitsMoved);
             break;
     }
-}
-
-
-VarInstruction::VarInstruction(InstructionType type, const std::string& varname, int value, const std::string& argVarname)
-{
-    this->type = type;
-    this->varname = varname;
-    this->value = value;
-    this->argVarname = argVarname;
 }
 
 void VarInstruction::executeInstruction(TurtleScene* turtleScene)
