@@ -46,7 +46,7 @@ void MainWindow::onButtonReleased()
     for (auto &instruction : instructions) {
         instruction->executeInstruction(turtleScene);
 
-        if (instruction->getType() == HALT)
+        if (instruction->getType() == InstructionType::HALT)
             break;
     }
 }

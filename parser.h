@@ -11,5 +11,4 @@ std::vector<std::unique_ptr<Instruction>> parseInput(std::string in);
 
 constexpr int variablePrefix{'$'};
 
-
 # endif

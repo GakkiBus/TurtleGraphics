@@ -26,15 +26,10 @@ std::vector<std::unique_ptr<Instruction>> parseInput(std::string in)
     }
     
     // insert HALT instruction as last statement
-    instructions.push_back(std::make_unique<HaltInstruction>(HALT));
+    instructions.push_back(std::make_unique<HaltInstruction>(InstructionType::HALT));
     return instructions;
 }
 
-/*
- * Statement ::= <space>*<string>(<space>+<integer>)?<space>*
- * where the string is used to identify the instruction
- * which may take a integers as arguments
- */
 static std::unique_ptr<Instruction> parseInstruction(const std::string& parseString)
 {
     std::istringstream parseStream(parseString);
@@ -44,20 +39,20 @@ static std::unique_ptr<Instruction> parseInstruction(const std::string& parseStr
     Command command{lookupCommand(code)};
     switch (command.type)
     {
-        case HALT:
+        case InstructionType::HALT:
             return parseHaltInstruction(command.type, parseStream);
-        case PEN_UP:
-        case PEN_DOWN:
+        case InstructionType::PEN_UP:
+        case InstructionType::PEN_DOWN:
             return parsePenInstruction(command.type, parseStream); 
-        case MOVE_NORTH:
-        case MOVE_EAST:
-        case MOVE_SOUTH:
-        case MOVE_WEST:
-        case ROTATE:
+        case InstructionType::MOVE_NORTH:
+        case InstructionType::MOVE_EAST:
+        case InstructionType::MOVE_SOUTH:
+        case InstructionType::MOVE_WEST:
+        case InstructionType::ROTATE:
             return parseMoveInstruction(command.type, parseStream);
-        case VAR_SET:
-        case VAR_INC:
-        case VAR_DEC:
+        case InstructionType::VAR_SET:
+        case InstructionType::VAR_INC:
+        case InstructionType::VAR_DEC:
             return parseVarInstruction(command.type, parseStream);
     }
     exit(1);

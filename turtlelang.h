@@ -3,7 +3,7 @@
 
 #include <string>
 
-enum InstructionType
+enum class InstructionType
 {
     HALT,
     PEN_UP,

@@ -4,17 +4,17 @@
 #include <string>
 
 Command commands[] = {
-    Command{ HALT,          "HALT" },
-    Command{ PEN_UP,        "U" },
-    Command{ PEN_DOWN,      "D" },
-    Command{ MOVE_NORTH,    "N" },
-    Command{ MOVE_EAST,     "E" },
-    Command{ MOVE_SOUTH,    "S" },
-    Command{ MOVE_WEST,     "W" },
-    Command{ ROTATE,        "R" },
-    Command{ VAR_SET,       "SET" },
-    Command{ VAR_INC,       "INC" },
-    Command{ VAR_DEC,       "DEC" },
+    Command{ InstructionType::HALT,          "HALT" },
+    Command{ InstructionType::PEN_UP,        "U" },
+    Command{ InstructionType::PEN_DOWN,      "D" },
+    Command{ InstructionType::MOVE_NORTH,    "N" },
+    Command{ InstructionType::MOVE_EAST,     "E" },
+    Command{ InstructionType::MOVE_SOUTH,    "S" },
+    Command{ InstructionType::MOVE_WEST,     "W" },
+    Command{ InstructionType::ROTATE,        "R" },
+    Command{ InstructionType::VAR_SET,       "SET" },
+    Command{ InstructionType::VAR_INC,       "INC" },
+    Command{ InstructionType::VAR_DEC,       "DEC" },
 };
 
 Command lookupCommand(const std::string& code)

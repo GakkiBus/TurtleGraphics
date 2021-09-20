@@ -41,10 +41,10 @@ void PenInstruction::executeInstruction(TurtleScene* turtleScene)
 {
     switch (type)
     {
-        case PEN_DOWN:
+        case InstructionType::PEN_DOWN:
             turtleScene->penDown();
             break;
-        case PEN_UP:
+        case InstructionType::PEN_UP:
             turtleScene->penUp();
             break;
         default:
@@ -57,19 +57,19 @@ void MoveInstruction::executeInstruction(TurtleScene* turtleScene)
     int unitsMoved{(!argVarname.empty()) ? lookupState(argVarname) : this->unitsMoved};
     switch (type)
     {
-        case MOVE_NORTH:
+        case InstructionType::MOVE_NORTH:
             turtleScene->movePenY(-unitsMoved);
             break;
-        case MOVE_EAST:
+        case InstructionType::MOVE_EAST:
             turtleScene->movePenX(unitsMoved);
             break;
-        case MOVE_SOUTH:
+        case InstructionType::MOVE_SOUTH:
             turtleScene->movePenY(unitsMoved);
             break;
-        case MOVE_WEST:
+        case InstructionType::MOVE_WEST:
             turtleScene->movePenX(-unitsMoved);
             break;
-        case ROTATE:
+        case InstructionType::ROTATE:
             turtleScene->setRotationAngle(unitsMoved);
             break;
         default:
@@ -82,19 +82,19 @@ void VarInstruction::executeInstruction(TurtleScene*)
     int value{(!argVarname.empty()) ? lookupState(argVarname) : this->value};
     switch (type)
     {
-        case VAR_INC:
+        case InstructionType::VAR_INC:
         {
             int oldValue{lookupState(varname)};
             updateState(varname, oldValue + value);
             break;
         }
-        case VAR_DEC:
+        case InstructionType::VAR_DEC:
         {
             int oldValue{lookupState(varname)};
             updateState(varname, oldValue - value);
             break;
         }
-        case VAR_SET:
+        case InstructionType::VAR_SET:
             updateState(varname, value);
             break;
         default:
