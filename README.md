@@ -23,7 +23,7 @@ Drawing is done by specifying movement instructions on a pen which are written i
 <var-identifier> ::= SET | INC | DEC
 <varname> ::= <non-empty string>
 
-<literal> ::= $<non-empty string>
+<literal> ::= $<non-empty string> | <integer>
 ```
 
 ### Semantics
