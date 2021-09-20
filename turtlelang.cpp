@@ -17,7 +17,7 @@ Command commands[] = {
     Command{ VAR_DEC,       "DEC" },
 };
 
-Command lookupCommand(std::string code)
+Command lookupCommand(const std::string& code)
 {
     for (Command command : commands)
     {

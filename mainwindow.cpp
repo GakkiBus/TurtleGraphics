@@ -28,7 +28,10 @@ void MainWindow::initializeMenu()
 {
     menuBox = new QGroupBox();
     menuLayout = new QVBoxLayout();
-    instructionEdit = new QTextEdit();
+    instructionEdit = new QPlainTextEdit();
+    QFont font = QFont("Monospace");
+    font.setStyleHint(QFont::Monospace);
+    instructionEdit->setFont(font);
     instructionConfirm = new QPushButton("Draw Graphics");
 
     menuBox->setLayout(menuLayout);

@@ -24,6 +24,6 @@ struct Command
     std::string code;
 };
 
-Command lookupCommand(std::string code);
+Command lookupCommand(const std::string& code);
 
 #endif

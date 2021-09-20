@@ -10,7 +10,7 @@ class TurtleScene;
 class QGraphicsView;
 class QGroupBox;
 class QVBoxLayout;
-class QTextEdit;
+class QPlainTextEdit;
 class QPushButton;
 
 class MainWindow : public QWidget
@@ -28,7 +28,7 @@ private:
     QGraphicsView* turtleView;
     QGroupBox* menuBox;
     QVBoxLayout* menuLayout;
-    QTextEdit* instructionEdit;
+    QPlainTextEdit* instructionEdit;
     QPushButton* instructionConfirm;
 
     void initializeMenu();
