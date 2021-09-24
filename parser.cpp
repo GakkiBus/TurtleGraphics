@@ -36,24 +36,24 @@ static std::unique_ptr<Instruction> parseInstruction(const std::string& parseStr
     std::string code{};
     parseStream >> code;
 
-    Command command{lookupCommand(code)};
-    switch (command.type)
+    InstructionType type{lookupCommand(code)};
+    switch (type)
     {
         case InstructionType::HALT:
-            return parseHaltInstruction(command.type, parseStream);
+            return parseHaltInstruction(type, parseStream);
         case InstructionType::PEN_UP:
         case InstructionType::PEN_DOWN:
-            return parsePenInstruction(command.type, parseStream); 
+            return parsePenInstruction(type, parseStream); 
         case InstructionType::MOVE_NORTH:
         case InstructionType::MOVE_EAST:
         case InstructionType::MOVE_SOUTH:
         case InstructionType::MOVE_WEST:
         case InstructionType::ROTATE:
-            return parseMoveInstruction(command.type, parseStream);
+            return parseMoveInstruction(type, parseStream);
         case InstructionType::VAR_SET:
         case InstructionType::VAR_INC:
         case InstructionType::VAR_DEC:
-            return parseVarInstruction(command.type, parseStream);
+            return parseVarInstruction(type, parseStream);
     }
     exit(1);
 }

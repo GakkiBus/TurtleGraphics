@@ -17,12 +17,12 @@ Command commands[] = {
     Command{ InstructionType::VAR_DEC,       "DEC" },
 };
 
-Command lookupCommand(const std::string& code)
+InstructionType lookupCommand(const std::string& code)
 {
     for (Command command : commands)
     {
         if (command.code == code)
-            return command;
+            return command.type;
     }
     
     std::cout << "Error looking up code [" << code << "]\n";
