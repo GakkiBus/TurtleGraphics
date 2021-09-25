@@ -24,6 +24,7 @@ add_executable(TurtleGraphics
     mainwindow.cpp
     turtlescene.cpp
     instruction.cpp
+    symbolic_table.cpp
 )
 
 target_link_libraries(TurtleGraphics
