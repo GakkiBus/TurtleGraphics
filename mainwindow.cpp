@@ -5,7 +5,7 @@
 #include "instruction.h"
 
 #include <QtWidgets>
-#include <vector>
+#include <list>
 #include <string>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -42,7 +42,7 @@ void MainWindow::initializeMenu()
 void MainWindow::onButtonReleased()
 {
     turtleScene->reset();
-    std::vector<std::unique_ptr<Instruction>> instructions{parseInput(instructionEdit->toPlainText().toStdString())};
+    std::list<std::unique_ptr<Instruction>> instructions{parseInput(instructionEdit->toPlainText().toStdString())};
     for (auto &instruction : instructions) {
         instruction->executeInstruction(turtleScene);
 

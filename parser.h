@@ -3,11 +3,11 @@
 
 #include "instruction.h"
 
-#include <vector>
+#include <list>
 #include <string>
 #include <sstream>
 
-std::vector<std::unique_ptr<Instruction>> parseInput(std::string in);
+std::list<std::unique_ptr<Instruction>> parseInput(std::string in);
 
 constexpr int variablePrefix{'$'};
 

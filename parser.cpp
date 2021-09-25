@@ -2,7 +2,7 @@
 #include "turtlelang.h"
 #include "instruction.h"
 
-#include <vector>
+#include <list>
 #include <string>
 #include <sstream>
 #include <memory>
@@ -14,9 +14,9 @@ static std::unique_ptr<Instruction> parsePenInstruction(InstructionType type, st
 static std::unique_ptr<Instruction> parseMoveInstruction(InstructionType type, std::istringstream& parseStream);
 static std::unique_ptr<Instruction> parseVarInstruction(InstructionType type, std::istringstream& parseStream);
 
-std::vector<std::unique_ptr<Instruction>> parseInput(std::string in)
+std::list<std::unique_ptr<Instruction>> parseInput(std::string in)
 {
-    std::vector<std::unique_ptr<Instruction>> instructions{};
+    std::list<std::unique_ptr<Instruction>> instructions{};
     std::istringstream streamIn(in);
     while (!streamIn.eof()) {
         std::string line{};
