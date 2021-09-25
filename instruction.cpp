@@ -1,30 +1,15 @@
 #include "instruction.h"
 #include "turtlelang.h"
 #include "turtlescene.h"
+#include "symbolic_table.h"
 
-#include <map>
 #include <string>
 
-std::map<std::string, int> Instruction::state{};
+SymbolicTable Instruction::symbolicTable{};
 
-void Instruction::resetState()
+void Instruction::resetTable()
 {
-    state.clear();
-}
-
-void Instruction::updateState(std::string varname, int value)
-{
-    state.insert_or_assign(varname, value);
-}
-
-int Instruction::lookupState(std::string varname)
-{
-    auto search{state.find(varname)};
-    if (search != state.end()) {
-        return search->second;
-    } else {
-        return 0;
-    }
+    symbolicTable = SymbolicTable{};
 }
 
 InstructionType Instruction::getType()
@@ -34,7 +19,7 @@ InstructionType Instruction::getType()
 
 void HaltInstruction::executeInstruction(TurtleScene*)
 {
-    resetState();
+    resetTable();
 }
 
 void PenInstruction::executeInstruction(TurtleScene* turtleScene)
@@ -54,7 +39,7 @@ void PenInstruction::executeInstruction(TurtleScene* turtleScene)
 
 void MoveInstruction::executeInstruction(TurtleScene* turtleScene)
 {
-    int unitsMoved{(!argVarname.empty()) ? lookupState(argVarname) : this->unitsMoved};
+    int unitsMoved{(!argVarname.empty()) ? symbolicTable.lookup(argVarname) : this->unitsMoved};
     switch (type)
     {
         case InstructionType::MOVE_NORTH:
@@ -79,23 +64,23 @@ void MoveInstruction::executeInstruction(TurtleScene* turtleScene)
 
 void VarInstruction::executeInstruction(TurtleScene*)
 {
-    int value{(!argVarname.empty()) ? lookupState(argVarname) : this->value};
+    int value{(!argVarname.empty()) ? symbolicTable.lookup(argVarname) : this->value};
     switch (type)
     {
         case InstructionType::VAR_INC:
         {
-            int oldValue{lookupState(varname)};
-            updateState(varname, oldValue + value);
+            int oldValue{symbolicTable.lookup(varname)};
+            symbolicTable.update(varname, oldValue + value);
             break;
         }
         case InstructionType::VAR_DEC:
         {
-            int oldValue{lookupState(varname)};
-            updateState(varname, oldValue - value);
+            int oldValue{symbolicTable.lookup(varname)};
+            symbolicTable.update(varname, oldValue - value);
             break;
         }
         case InstructionType::VAR_SET:
-            updateState(varname, value);
+            symbolicTable.update(varname, value);
             break;
         default:
             exit(1);

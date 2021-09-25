@@ -3,20 +3,12 @@
 
 #include "turtlescene.h"
 #include "turtlelang.h"
+#include "symbolic_table.h"
 
-#include <map>
 #include <string>
 
-// Class instanced are used to execute parsed instructions
 class Instruction
 {
-
-private:
-     // Mapping from variable names to values.
-     // May be used by derived classes during instruction execution for update/lookup.
-     // uninitialized variables have value 0.
-    static std::map<std::string, int> state;
-
 public:
     Instruction(InstructionType type) : type{type} {}
     virtual ~Instruction() = default;
@@ -24,10 +16,9 @@ public:
     InstructionType getType();
 
 protected:
+    static SymbolicTable symbolicTable;
     InstructionType type;
-    void updateState(std::string varname, int value);
-    int lookupState(std::string varname);
-    void resetState();
+    void resetTable();
 };
 
 class HaltInstruction : public Instruction
