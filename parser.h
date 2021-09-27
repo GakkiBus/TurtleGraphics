@@ -3,11 +3,11 @@
 
 #include "instruction.h"
 
-#include <list>
 #include <string>
 #include <sstream>
+#include <memory>
 
-std::list<std::unique_ptr<Instruction>> parseInput(std::string in);
+std::shared_ptr<Instruction> parseInput(std::string in);
 
 constexpr int variablePrefix{'$'};
 

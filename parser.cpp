@@ -7,36 +7,36 @@
 #include <sstream>
 #include <memory>
 
-static bool isVarname(const std::string& literal);
-static std::unique_ptr<Instruction> parseInstruction(const std::string& parseString);
-static std::unique_ptr<Instruction> parseHaltInstruction(InstructionType type, std::istringstream& parseStream);
-static std::unique_ptr<Instruction> parsePenInstruction(InstructionType type, std::istringstream& parseStream);
-static std::unique_ptr<Instruction> parseMoveInstruction(InstructionType type, std::istringstream& parseStream);
-static std::unique_ptr<Instruction> parseVarInstruction(InstructionType type, std::istringstream& parseStream);
+#include <iostream>
 
-std::list<std::unique_ptr<Instruction>> parseInput(std::string in)
+static bool isVarname(const std::string& literal);
+static std::shared_ptr<Instruction> parseInstruction(const std::string& parseString);
+static std::shared_ptr<Instruction> parseHaltInstruction(InstructionType type, std::istringstream& parseStream);
+static std::shared_ptr<Instruction> parseReturnInstruction(InstructionType type, std::istringstream&);
+static std::shared_ptr<Instruction> parsePenInstruction(InstructionType type, std::istringstream& parseStream);
+static std::shared_ptr<Instruction> parseMoveInstruction(InstructionType type, std::istringstream& parseStream);
+static std::shared_ptr<Instruction> parseVarInstruction(InstructionType type, std::istringstream& parseStream);
+static std::shared_ptr<Instruction> parseBlockInstruction(InstructionType type, std::istringstream& parseStream);
+
+std::shared_ptr<Instruction> parseInput(std::string in)
 {
-    std::list<std::unique_ptr<Instruction>> instructions{};
-    std::istringstream streamIn(in);
-    while (!streamIn.eof()) {
-        std::string line{};
-        getline(streamIn, line);
-        if (!line.empty())
-            instructions.push_back(parseInstruction(line));
+    std::istringstream parseStream(in + "\n}");
+    std::shared_ptr<Instruction> main{parseBlockInstruction(InstructionType::BLOCK_START, parseStream)};
+
+    if (!parseStream.eof()) {
+        std::cerr << "Unmatched closing brace\n"; 
+        exit(1);
     }
-    
-    // insert HALT instruction as last statement
-    instructions.push_back(std::make_unique<HaltInstruction>(InstructionType::HALT));
-    return instructions;
+    return main;
 }
 
-static std::unique_ptr<Instruction> parseInstruction(const std::string& parseString)
+static std::shared_ptr<Instruction> parseInstruction(const std::string& parseString)
 {
     std::istringstream parseStream(parseString);
     std::string code{};
     parseStream >> code;
 
-    InstructionType type{lookupCommand(code)};
+    InstructionType type{lookupCode(code)};
     switch (type)
     {
         case InstructionType::HALT:
@@ -54,8 +54,15 @@ static std::unique_ptr<Instruction> parseInstruction(const std::string& parseStr
         case InstructionType::VAR_INC:
         case InstructionType::VAR_DEC:
             return parseVarInstruction(type, parseStream);
+        case InstructionType::BLOCK_START:
+            return parseBlockInstruction(type, parseStream);
+        case InstructionType::RETURN:
+        case InstructionType::BLOCK_END:
+            return parseReturnInstruction(type, parseStream);
+        default:
+            std::cerr << "Unknown instruction code ["<< code << "]\n"; 
+            exit(1);
     }
-    exit(1);
 }
 
 static bool isVarname(const std::string& literal)
@@ -63,36 +70,64 @@ static bool isVarname(const std::string& literal)
     return literal[0] == variablePrefix;
 }
 
-static std::unique_ptr<Instruction> parseHaltInstruction(InstructionType type, std::istringstream&)
+static std::shared_ptr<Instruction> parseHaltInstruction(InstructionType type, std::istringstream&)
 {
-    return std::make_unique<HaltInstruction>(type);
+    return std::make_shared<HaltInstruction>(type);
 }
 
-static std::unique_ptr<Instruction> parsePenInstruction(InstructionType type, std::istringstream&)
+static std::shared_ptr<Instruction> parseReturnInstruction(InstructionType type, std::istringstream&)
 {
-    return std::make_unique<PenInstruction>(type);
+    return std::make_shared<ReturnInstruction>(type);
 }
 
-static std::unique_ptr<Instruction> parseMoveInstruction(InstructionType type, std::istringstream& parseStream)
+static std::shared_ptr<Instruction> parsePenInstruction(InstructionType type, std::istringstream&)
+{
+    return std::make_shared<PenInstruction>(type);
+}
+
+static std::shared_ptr<Instruction> parseMoveInstruction(InstructionType type, std::istringstream& parseStream)
 {
     std::string literal{};
     parseStream >> literal;
     if (isVarname(literal)) {
-        return std::make_unique<MoveInstruction>(type, literal.substr(1));
+        return std::make_shared<MoveInstruction>(type, literal.substr(1));
     } else {
-        return std::make_unique<MoveInstruction>(type, std::stoi(literal));
+        return std::make_shared<MoveInstruction>(type, std::stoi(literal));
     }
 }
 
-static std::unique_ptr<Instruction> parseVarInstruction(InstructionType type, std::istringstream& parseStream)
+static std::shared_ptr<Instruction> parseVarInstruction(InstructionType type, std::istringstream& parseStream)
 {
     std::string varname{};
     parseStream >> varname;
     std::string literal{};
     parseStream >> literal;
     if (isVarname(literal)) {
-        return std::make_unique<VarInstruction>(type, varname, literal.substr(1));
+        return std::make_shared<VarInstruction>(type, varname, literal.substr(1));
     } else {
-        return std::make_unique<VarInstruction>(type, varname, std::stoi(literal));
+        return std::make_shared<VarInstruction>(type, varname, std::stoi(literal));
     }
+}
+
+
+static std::shared_ptr<Instruction> parseBlockInstruction(InstructionType type, std::istringstream& parseStream)
+{
+    std::list<std::shared_ptr<Instruction>> body{};
+
+    while (!parseStream.eof()) {
+        std::string line{};
+        getline(parseStream, line);
+        std::cout << line << '\n';
+        if (line.empty()) { 
+            continue; 
+        }
+
+        std::shared_ptr<Instruction> instruction{parseInstruction(line)};
+        body.push_back(instruction);
+        if (instruction->getType() == InstructionType::BLOCK_END) {
+            return std::make_shared<BlockInstruction>(type, body); 
+        }
+    }
+    std::cerr << "Unmatched opening brace\n"; 
+    exit(1);
 }

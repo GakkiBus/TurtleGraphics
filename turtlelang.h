@@ -2,10 +2,12 @@
 #define TURTLELANG_H
 
 #include <string>
+#include <string_view>
 
 enum class InstructionType
 {
     HALT,
+    RETURN,
     PEN_UP,
     PEN_DOWN,
     MOVE_NORTH,
@@ -16,14 +18,20 @@ enum class InstructionType
     VAR_SET,
     VAR_INC,
     VAR_DEC,
+    BLOCK_START,
+    BLOCK_END,
 };
 
 struct Command
 {
     InstructionType type;
-    std::string code;
+    std::string_view code;
 };
 
-InstructionType lookupCommand(const std::string& code);
+InstructionType lookupCode(const std::string& code);
+
+bool isKeyword(const std::string& value);
+bool isOperator(const std::string& value);
+bool isSeparator(const std::string& value);
 
 #endif
