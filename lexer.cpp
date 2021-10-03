@@ -1,7 +1,13 @@
 #include "lexer.h"
-#include "turtlelang.h"
 
 #include <sstream>
+#include <string>
+
+Lexer::Lexer(const std::string input)
+{ 
+    parseStream{std::istringstream{input}};
+    tokenize();
+}
 
 Token Lexer::peek()
 {
@@ -19,7 +25,7 @@ Token Lexer::tokenize()
     if (parseStream.eof()) { return Token{TokenType::EOS}; }
     
     int c{parseStream.peek()};
-    if (isdigit(c)) {
+    if (isdigit(c) || c == '%') {
         return tokenizeNumber();
     } else if (isalpha(c)) {
         return tokenizeKeywordOrIdentifier();
@@ -33,9 +39,9 @@ Token Lexer::tokenize()
 Token Lexer::tokenizeNumber()
 {
     std::string value{};
-    bool beforePoint{true};
-    while (isdigit(parseStream.peek()) || (parseStream.peek() == '.' && beforePoint)) {
-        if (parseStream.peek() == '.') { beforePoint = false; }
+    bool beforDenominator{true};
+    while (isdigit(parseStream.peek()) || (beforeDenominator && parseStream.peek() == '%')) {
+        if (parseStream.peek() == '%') { beforeDenominator = false; }
         value += parseStream.get();
     }
     return Token{TokenType::NUMBER, value};
@@ -47,7 +53,24 @@ Token Lexer::tokenizeKeywordOrIdentifier()
     while (isalnum(parseStream.peek())) {
         value += parseStream.get();
     }
-    return Token{isKeyword(value) ? TokenType::KEYWORD : TokenType::IDENTIFIER, value};
+
+    switch (value)
+    {
+        case "if":
+            return Token{TokenType::IF, ""};
+        case "else":
+            return Token{TokenType::ELSE, ""};
+        case "while":
+            return Token{TokenType::WHILE, ""};
+        case "function":
+            return Token{TokenType::FUNCTION, ""};
+        case "return":
+            return Token{TokenType::RETURN, ""};
+        case "declare":
+            return Token{TokenType::DECLARE, ""};
+        default:
+            return Token{TokenType::IDENTIFIER, value};
+    }
 }
 
 Token Lexer::tokenizeOperatorOrSeparator()
@@ -56,11 +79,36 @@ Token Lexer::tokenizeOperatorOrSeparator()
     while (ispunct(parseStream.peek())) {
         value += parseStream.get();
     }
-    if (isOperator(value)) {
-        return Token{TokenType::OPERATOR, value};
-    } else if (isSeparator(value)) {
-        return Token{TokenType::SEPARATOR, value};
-    } else {
-        return Token{TokenType::UNKNOWN, value};
+    
+    switch (value)
+    {
+        case "=":
+            return Token{TokenType::ASSIGNMENT, ""};
+        case ",":
+            return Token{TokenType::KOMMA, ""};
+        case ";":
+            return Token{TokenType::SEMICOLON, ""};
+        case "(":
+            return Token{TokenType::OPEN_ROUND_BRACKET, ""};
+        case ")":
+            return Token{TokenType::CLOSED_ROUD_BRACKET, ""};
+        case "{":
+            return Token{TokenType::OPEN_CURLY_BRACKET, ""};
+        case "}":
+            return Token{TokenType::CLOSED_CURLY_BRACKET, ""};
+        case "==":
+            return Token{TokenType::EQUALITY, ""};
+        case "<":
+            return Token{TokenType::LESS_THAN, ""};
+        case "+":
+            return Token{TokenType::PLUS, ""};
+        case "-":
+            return Token{TokenType::MINUS, ""};
+        case "*":
+            return Token{TokenType::MULT, ""};
+        case "/":
+            return Token{TokenType::DIV, ""};
+        default:
+            return Token{TokenType::UNKNOWN, value};
     }
 }

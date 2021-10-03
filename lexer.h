@@ -6,14 +6,44 @@
 
 enum class TokenType
 {
-    KEYWORD,
     IDENTIFIER,
     NUMBER,
-    SEPARATOR,
-    OPERATOR,
+    SEMICOLON,
+    OPEN_ROUND_BRACKET,
+    CLOSED_ROUND_BRACKET,
+    OPEN_CURLY_BRACKET,
+    CLOSED_CURLY_BRACKET,
+    FUNCTION,
+    WHILE,
+    IF,
+    ELSE,
+    RETURN,
+    DECLARE,
+    EQUALITY,
+    LESS_THAN,
+    MINUS,
+    PLUS,
+    MULT,
+    DIV,
+    ASSIGNMENT,
+    KOMMA,
 
-    UNKNOWN,
     EOS,
+    UNKNOWN,
+
+    // Tokens that will be added during parsing
+    BLOCK_STMT,
+    STMT,
+    STMTS,
+    EXPR,
+    EXPRS,
+    EXPRS1,
+    P1,
+    P2,
+    P3,
+    P4,
+    IDS,
+    IDS1,
 };
 
 struct Token
@@ -25,7 +55,7 @@ struct Token
 class Lexer
 {
 public:
-    Lexer(const std::string& input) : parseStream{std::istringstream{input}}, currToken{Token{TokenType::UNKNOWN}} {}
+    Lexer(const std::string& input);
     Token peek();
     void next();
 

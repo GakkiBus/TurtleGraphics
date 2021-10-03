@@ -30,8 +30,4 @@ struct Command
 
 InstructionType lookupCode(const std::string& code);
 
-bool isKeyword(const std::string& value);
-bool isOperator(const std::string& value);
-bool isSeparator(const std::string& value);
-
 #endif

@@ -3,7 +3,6 @@
 #include <iostream>
 #include <string>
 #include <string_view>
-#include <set>
 
 constexpr Command commands[] = {
     Command{ InstructionType::HALT,          "HALT" },
@@ -22,18 +21,6 @@ constexpr Command commands[] = {
     Command{ InstructionType::BLOCK_END,     "}" },
 };
 
-std::set<std::string_view> keywords {
-    "HALT", "RETURN", "FOR", "IF"
-};
-
-std::set<std::string_view> operators {
-    "=", "+", "-", "*", "/"
-};
-
-std::set<std::string_view> separators {
-    "{", "}", "(", ")", ","
-};
-
 InstructionType lookupCode(const std::string& code)
 {
     for (Command command : commands)
@@ -44,19 +31,4 @@ InstructionType lookupCode(const std::string& code)
     
     std::cout << "Error looking up code [" << code << "]\n";
     exit(1);
-}
-
-bool isKeyword(const std::string& value)
-{
-    return keywords.find(value) != keywords.end();
-}
-
-bool isOperator(const std::string& value)
-{
-    return operators.find(value) != operators.end();
-}
-
-bool isSeparator(const std::string& value)
-{
-    return separators.find(value) != separators.end();
 }
