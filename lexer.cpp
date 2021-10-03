@@ -2,6 +2,7 @@
 
 #include <sstream>
 #include <string>
+#include <iostream>
 
 Lexer::Lexer(const std::string input)
 {
@@ -22,7 +23,7 @@ void Lexer::next()
 Token Lexer::tokenize()
 {
     parseStream >> std::ws;
-    if (parseStream.eof()) { return Token{TokenType::EOS, false, ""}; }
+    if (parseStream.eof()) { return Token{TokenType::EOS, true, ""}; }
     
     int c{parseStream.peek()};
     if (isdigit(c) || c == '%') {
@@ -32,7 +33,8 @@ Token Lexer::tokenize()
     } else if (ispunct(c)) {
         return tokenizeOperatorOrSeparator();
     } else {
-        return Token{TokenType::UNKNOWN, false, c};
+        std::cerr << "Error: Encountered unknown sequence '" << c << "' while parsing input.\n" ;
+        exit(1);
     }
 }
 
@@ -109,6 +111,7 @@ Token Lexer::tokenizeOperatorOrSeparator()
         case "/":
             return Token{TokenType::DIV, true, ""};
         default:
-            return Token{TokenType::UNKNOWN, false, value};
+            std::cerr << "Error: Encountered unknown sequence '" << value << "' while parsing input.\n" ;
+            exit(1);
     }
 }
