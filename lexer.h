@@ -36,14 +36,22 @@ enum class TokenType
     STMT,
     STMTS,
     EXPR,
+    EXPR_LR,
     EXPRS,
     EXPRS1,
+    EXPRS1_LF,
     P1,
+    P1_LR,
     P2,
+    P2_LR,
     P3,
+    P3_LR,
     P4,
+    PR_LF,
     IDS,
+    IDS_LF,
     IDS1,
+    IDS1_LF,
 };
 
 struct Token
