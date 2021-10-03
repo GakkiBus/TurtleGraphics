@@ -57,6 +57,7 @@ enum class TokenType
 struct Token
 {
     TokenType type;
+    bool isTerminal;
     std::string value{};
 };
 

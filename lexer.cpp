@@ -4,7 +4,7 @@
 #include <string>
 
 Lexer::Lexer(const std::string input)
-{ 
+{
     parseStream{std::istringstream{input}};
     tokenize();
 }
@@ -22,7 +22,7 @@ void Lexer::next()
 Token Lexer::tokenize()
 {
     parseStream >> std::ws;
-    if (parseStream.eof()) { return Token{TokenType::EOS}; }
+    if (parseStream.eof()) { return Token{TokenType::EOS, false, ""}; }
     
     int c{parseStream.peek()};
     if (isdigit(c) || c == '%') {
@@ -32,7 +32,7 @@ Token Lexer::tokenize()
     } else if (ispunct(c)) {
         return tokenizeOperatorOrSeparator();
     } else {
-        return Token{TokenType::UNKNOWN};
+        return Token{TokenType::UNKNOWN, false, c};
     }
 }
 
@@ -44,7 +44,7 @@ Token Lexer::tokenizeNumber()
         if (parseStream.peek() == '%') { beforeDenominator = false; }
         value += parseStream.get();
     }
-    return Token{TokenType::NUMBER, value};
+    return Token{TokenType::NUMBER, true, value};
 }
 
 Token Lexer::tokenizeKeywordOrIdentifier()
@@ -57,19 +57,19 @@ Token Lexer::tokenizeKeywordOrIdentifier()
     switch (value)
     {
         case "if":
-            return Token{TokenType::IF, ""};
+            return Token{TokenType::IF, true, ""};
         case "else":
-            return Token{TokenType::ELSE, ""};
+            return Token{TokenType::ELSE, true, ""};
         case "while":
-            return Token{TokenType::WHILE, ""};
+            return Token{TokenType::WHILE, true, ""};
         case "function":
-            return Token{TokenType::FUNCTION, ""};
+            return Token{TokenType::FUNCTION, true, ""};
         case "return":
-            return Token{TokenType::RETURN, ""};
+            return Token{TokenType::RETURN, true, ""};
         case "declare":
-            return Token{TokenType::DECLARE, ""};
+            return Token{TokenType::DECLARE, true, ""};
         default:
-            return Token{TokenType::IDENTIFIER, value};
+            return Token{TokenType::IDENTIFIER, true, value};
     }
 }
 
@@ -83,32 +83,32 @@ Token Lexer::tokenizeOperatorOrSeparator()
     switch (value)
     {
         case "=":
-            return Token{TokenType::ASSIGNMENT, ""};
+            return Token{TokenType::ASSIGNMENT, true, ""};
         case ",":
-            return Token{TokenType::KOMMA, ""};
+            return Token{TokenType::KOMMA, true, ""};
         case ";":
-            return Token{TokenType::SEMICOLON, ""};
+            return Token{TokenType::SEMICOLON, true, ""};
         case "(":
-            return Token{TokenType::OPEN_ROUND_BRACKET, ""};
+            return Token{TokenType::OPEN_ROUND_BRACKET, true, ""};
         case ")":
-            return Token{TokenType::CLOSED_ROUD_BRACKET, ""};
+            return Token{TokenType::CLOSED_ROUD_BRACKET, true, ""};
         case "{":
-            return Token{TokenType::OPEN_CURLY_BRACKET, ""};
+            return Token{TokenType::OPEN_CURLY_BRACKET, true, ""};
         case "}":
-            return Token{TokenType::CLOSED_CURLY_BRACKET, ""};
+            return Token{TokenType::CLOSED_CURLY_BRACKET, true, ""};
         case "==":
-            return Token{TokenType::EQUALITY, ""};
+            return Token{TokenType::EQUALITY, true, ""};
         case "<":
-            return Token{TokenType::LESS_THAN, ""};
+            return Token{TokenType::LESS_THAN, true, ""};
         case "+":
-            return Token{TokenType::PLUS, ""};
+            return Token{TokenType::PLUS, true, ""};
         case "-":
-            return Token{TokenType::MINUS, ""};
+            return Token{TokenType::MINUS, true, ""};
         case "*":
-            return Token{TokenType::MULT, ""};
+            return Token{TokenType::MULT, true, ""};
         case "/":
-            return Token{TokenType::DIV, ""};
+            return Token{TokenType::DIV, true, ""};
         default:
-            return Token{TokenType::UNKNOWN, value};
+            return Token{TokenType::UNKNOWN, false, value};
     }
 }
