@@ -23,7 +23,7 @@ void Lexer::next()
 Token Lexer::tokenize()
 {
     parseStream >> std::ws;
-    if (parseStream.eof()) { return Token{TokenType::EOS, true, ""}; }
+    if (parseStream.eof()) { return Token{Symbol::EOS, true, ""}; }
     
     int c{parseStream.peek()};
     if (isdigit(c) || c == '%') {
@@ -46,7 +46,7 @@ Token Lexer::tokenizeNumber()
         if (parseStream.peek() == '%') { beforeDenominator = false; }
         value += parseStream.get();
     }
-    return Token{TokenType::NUMBER, true, value};
+    return Token{Symbol::NUMBER, true, value};
 }
 
 Token Lexer::tokenizeKeywordOrIdentifier()
@@ -59,19 +59,19 @@ Token Lexer::tokenizeKeywordOrIdentifier()
     switch (value)
     {
         case "if":
-            return Token{TokenType::IF, true, ""};
+            return Token{Symbol::IF, ""};
         case "else":
-            return Token{TokenType::ELSE, true, ""};
+            return Token{Symbol::ELSE, ""};
         case "while":
-            return Token{TokenType::WHILE, true, ""};
+            return Token{Symbol::WHILE, ""};
         case "function":
-            return Token{TokenType::FUNCTION, true, ""};
+            return Token{Symbol::FUNCTION, ""};
         case "return":
-            return Token{TokenType::RETURN, true, ""};
+            return Token{Symbol::RETURN, ""};
         case "declare":
-            return Token{TokenType::DECLARE, true, ""};
+            return Token{Symbol::DECLARE, ""};
         default:
-            return Token{TokenType::IDENTIFIER, true, value};
+            return Token{Symbol::IDENTIFIER, value};
     }
 }
 
@@ -85,31 +85,33 @@ Token Lexer::tokenizeOperatorOrSeparator()
     switch (value)
     {
         case "=":
-            return Token{TokenType::ASSIGNMENT, true, ""};
+            return Token{Symbol::ASSIGNMENT, ""};
         case ",":
-            return Token{TokenType::KOMMA, true, ""};
+            return Token{Symbol::KOMMA, ""};
         case ";":
-            return Token{TokenType::SEMICOLON, true, ""};
+            return Token{Symbol::SEMICOLON, ""};
         case "(":
-            return Token{TokenType::OPEN_ROUND_BRACKET, true, ""};
+            return Token{Symbol::OPEN_ROUND_BRACKET, ""};
         case ")":
-            return Token{TokenType::CLOSED_ROUD_BRACKET, true, ""};
+            return Token{Symbol::CLOSED_ROUD_BRACKET, ""};
         case "{":
-            return Token{TokenType::OPEN_CURLY_BRACKET, true, ""};
+            return Token{Symbol::OPEN_CURLY_BRACKET, ""};
         case "}":
-            return Token{TokenType::CLOSED_CURLY_BRACKET, true, ""};
+            return Token{Symbol::CLOSED_CURLY_BRACKET, ""};
         case "==":
-            return Token{TokenType::EQUALITY, true, ""};
+            return Token{Symbol::EQUALITY, ""};
         case "<":
-            return Token{TokenType::LESS_THAN, true, ""};
+            return Token{Symbol::LESS_THAN, ""};
         case "+":
-            return Token{TokenType::PLUS, true, ""};
+            return Token{Symbol::PLUS, ""};
         case "-":
-            return Token{TokenType::MINUS, true, ""};
+            return Token{Symbol::MINUS, ""};
         case "*":
-            return Token{TokenType::MULT, true, ""};
+            return Token{Symbol::MULT, ""};
         case "/":
-            return Token{TokenType::DIV, true, ""};
+            return Token{Symbol::DIV, ""};
+        case "$":
+            return Token{Symbol::DOLLAR_SIGN, ""};
         default:
             std::cerr << "Error: Encountered unknown sequence '" << value << "' while parsing input.\n" ;
             exit(1);

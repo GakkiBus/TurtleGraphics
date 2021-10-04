@@ -4,61 +4,63 @@
 #include <string>
 #include <sstream>
 
-namespace TokenType
+namespace Grammar 
 {
-    enum TokenType
+    enum Symbol 
     {
-        IDENTIFIER = 0,
-        NUMBER,
-        SEMICOLON,
+        EOS = 0,
         OPEN_ROUND_BRACKET,
         CLOSED_ROUND_BRACKET,
+        MULT,
+        PLUS,
+        COMMA,
+        MINUS,
+        DIV,
+        SEMICOLON,
+        LESS_THAN,
+        ASSIGNMENT,
+        EQUALITY,
+        DOLLAR_SIGN,
+        DECLARE,
+        ELSE,
+        FUNCTION,
+        IDENTIFIER,
+        IF,
+        NUMBER,
+        RETURN,
+        WHILE,
         OPEN_CURLY_BRACKET,
         CLOSED_CURLY_BRACKET,
-        FUNCTION,
-        WHILE,
-        IF,
-        ELSE,
-        RETURN,
-        DECLARE,
-        EQUALITY,
-        LESS_THAN,
-        MINUS,
-        PLUS,
-        MULT,
-        DIV,
-        ASSIGNMENT,
-        KOMMA,
-        EOS,
 
-        // Tokens that will be added during parsing
         BLOCK_STMT = 0,
-        STMT,
-        STMTS,
+        BOOL_EXPR,
+        BOOL_EXPR_LF,
         EXPR,
         EXPR_LR,
         EXPRS,
         EXPRS1,
         EXPRS1_LF,
-        P1,
-        P1_LR,
-        P2,
-        P2_LR,
-        P3,
-        P3_LR,
-        P4,
-        PR_LF,
+        FACTOR,
+        FUNCTION_EXPR,
         IDS,
-        IDS_LF,
         IDS1,
         IDS1_LF,
+        IDS_LF,
+        PROGRAM,
+        STMT,
+        STMTS,
+        TERM,
+        TERM_LR,
+        VAR_EXPR,
     };
+
+    inline constexpr int NUMBER_OF_TERMINALS{23};
+    inline constexpr int NUMBER_OF_NONTERMINALS{20};
 }
 
 struct Token
 {
-    TokenType type;
-    bool isTerminal;
+    Grammar::Symbol type;
     std::string value{};
 };
 
