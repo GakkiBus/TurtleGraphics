@@ -26,6 +26,7 @@ add_executable(TurtleGraphics
     instruction.cpp
     symbolic_table.cpp
     lexer.cpp
+    parse_table.cpp
 )
 
 target_link_libraries(TurtleGraphics

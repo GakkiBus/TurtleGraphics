@@ -1,13 +1,17 @@
 #include "lexer.h"
+#include "turtlelang.h"
 
 #include <sstream>
 #include <string>
 #include <iostream>
+#include <map>
 
-Lexer::Lexer(const std::string input)
+static bool isSep(char c);
+
+Lexer::Lexer(const std::string& input)
 {
-    parseStream{std::istringstream{input}};
-    tokenize();
+    parseStream = std::istringstream{input};
+    next();
 }
 
 Token Lexer::peek()
@@ -23,15 +27,17 @@ void Lexer::next()
 Token Lexer::tokenize()
 {
     parseStream >> std::ws;
-    if (parseStream.eof()) { return Token{Symbol::EOS, true, ""}; }
+    if (parseStream.eof()) { return Token{Grammar::EOS, ""}; }
     
     int c{parseStream.peek()};
     if (isdigit(c) || c == '%') {
         return tokenizeNumber();
     } else if (isalpha(c)) {
         return tokenizeKeywordOrIdentifier();
+    } else if (isSep(c)) {
+        return tokenizeSeparator();
     } else if (ispunct(c)) {
-        return tokenizeOperatorOrSeparator();
+        return tokenizeOperator();
     } else {
         std::cerr << "Error: Encountered unknown sequence '" << c << "' while parsing input.\n" ;
         exit(1);
@@ -41,12 +47,12 @@ Token Lexer::tokenize()
 Token Lexer::tokenizeNumber()
 {
     std::string value{};
-    bool beforDenominator{true};
+    bool beforeDenominator{true};
     while (isdigit(parseStream.peek()) || (beforeDenominator && parseStream.peek() == '%')) {
         if (parseStream.peek() == '%') { beforeDenominator = false; }
         value += parseStream.get();
     }
-    return Token{Symbol::NUMBER, true, value};
+    return Token{Grammar::NUMBER, value};
 }
 
 Token Lexer::tokenizeKeywordOrIdentifier()
@@ -56,64 +62,45 @@ Token Lexer::tokenizeKeywordOrIdentifier()
         value += parseStream.get();
     }
 
-    switch (value)
-    {
-        case "if":
-            return Token{Symbol::IF, ""};
-        case "else":
-            return Token{Symbol::ELSE, ""};
-        case "while":
-            return Token{Symbol::WHILE, ""};
-        case "function":
-            return Token{Symbol::FUNCTION, ""};
-        case "return":
-            return Token{Symbol::RETURN, ""};
-        case "declare":
-            return Token{Symbol::DECLARE, ""};
-        default:
-            return Token{Symbol::IDENTIFIER, value};
+    int search{Grammar::strToSymbol(value)};
+    if (search != -1) {
+        return Token{static_cast<Grammar::Symbol>(search), ""};
+    } else {
+        return Token{Grammar::IDENTIFIER, value};
     }
 }
 
-Token Lexer::tokenizeOperatorOrSeparator()
+Token Lexer::tokenizeSeparator()
+{
+    std::string value{};
+    value += parseStream.get();
+
+    int search{Grammar::strToSymbol(value)};
+    if (search != -1) {
+        return Token{static_cast<Grammar::Symbol>(search), ""};
+    } else {
+        std::cerr << "Error: Encountered unknown sequence '" << value << "' while parsing input.\n" ;
+        exit(1);
+    }
+}
+
+Token Lexer::tokenizeOperator()
 {
     std::string value{};
     while (ispunct(parseStream.peek())) {
         value += parseStream.get();
     }
     
-    switch (value)
-    {
-        case "=":
-            return Token{Symbol::ASSIGNMENT, ""};
-        case ",":
-            return Token{Symbol::KOMMA, ""};
-        case ";":
-            return Token{Symbol::SEMICOLON, ""};
-        case "(":
-            return Token{Symbol::OPEN_ROUND_BRACKET, ""};
-        case ")":
-            return Token{Symbol::CLOSED_ROUD_BRACKET, ""};
-        case "{":
-            return Token{Symbol::OPEN_CURLY_BRACKET, ""};
-        case "}":
-            return Token{Symbol::CLOSED_CURLY_BRACKET, ""};
-        case "==":
-            return Token{Symbol::EQUALITY, ""};
-        case "<":
-            return Token{Symbol::LESS_THAN, ""};
-        case "+":
-            return Token{Symbol::PLUS, ""};
-        case "-":
-            return Token{Symbol::MINUS, ""};
-        case "*":
-            return Token{Symbol::MULT, ""};
-        case "/":
-            return Token{Symbol::DIV, ""};
-        case "$":
-            return Token{Symbol::DOLLAR_SIGN, ""};
-        default:
-            std::cerr << "Error: Encountered unknown sequence '" << value << "' while parsing input.\n" ;
-            exit(1);
+    int search{Grammar::strToSymbol(value)};
+    if (search != -1) {
+        return Token{static_cast<Grammar::Symbol>(search), ""};
+    } else {
+        std::cerr << "Error: Encountered unknown sequence '" << value << "' while parsing input.\n" ;
+        exit(1);
     }
+}
+
+static bool isSep(char c)
+{
+    return c == '(' || c == ')' || c == '{' || c == '}' || c == ';' || c == ',';
 }

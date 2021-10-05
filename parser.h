@@ -1,14 +1,24 @@
 # ifndef PARSER_H
 # define PARSER_H
 
-#include "instruction.h"
+#include "parse_table.h"
+#include "turtlelang.h"
+#include "lexer.h"
 
 #include <string>
-#include <sstream>
-#include <memory>
+#include <stack>
+#include <list>
 
-std::shared_ptr<Instruction> parseInput(std::string in);
+class Parser
+{
+private:
+    Lexer lexer;
+    std::stack<Grammar::Symbol> parseStack;
+    void pushRule(const std::list<Grammar::Symbol>& rule);
 
-constexpr int variablePrefix{'$'};
+public:
+    Parser(const std::string& input) : lexer{Lexer{input}}, parseStack{std::stack<Grammar::Symbol>{}} {}
+    void parse();
+};
 
 # endif

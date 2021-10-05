@@ -42,11 +42,6 @@ void MainWindow::initializeMenu()
 void MainWindow::onButtonReleased()
 {
     turtleScene->reset();
-    std::list<std::unique_ptr<Instruction>> instructions{parseInput(instructionEdit->toPlainText().toStdString())};
-    for (auto &instruction : instructions) {
-        instruction->executeInstruction(turtleScene);
-
-        if (instruction->getType() == InstructionType::HALT)
-            break;
-    }
+    Parser parser{instructionEdit->toPlainText().toStdString()};
+    parser.parse();
 }
