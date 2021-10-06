@@ -64,7 +64,7 @@ Token Lexer::tokenizeKeywordOrIdentifier()
 
     int search{Grammar::strToSymbol(value)};
     if (search != -1) {
-        return Token{static_cast<Grammar::Symbol>(search), ""};
+        return Token{static_cast<Grammar::Symbol>(search)};
     } else {
         return Token{Grammar::IDENTIFIER, value};
     }
@@ -77,7 +77,7 @@ Token Lexer::tokenizeSeparator()
 
     int search{Grammar::strToSymbol(value)};
     if (search != -1) {
-        return Token{static_cast<Grammar::Symbol>(search), ""};
+        return Token{static_cast<Grammar::Symbol>(search)};
     } else {
         std::cerr << "Error: Encountered unknown sequence '" << value << "' while parsing input.\n" ;
         exit(1);
@@ -93,7 +93,7 @@ Token Lexer::tokenizeOperator()
     
     int search{Grammar::strToSymbol(value)};
     if (search != -1) {
-        return Token{static_cast<Grammar::Symbol>(search), ""};
+        return Token{static_cast<Grammar::Symbol>(search)};
     } else {
         std::cerr << "Error: Encountered unknown sequence '" << value << "' while parsing input.\n" ;
         exit(1);
