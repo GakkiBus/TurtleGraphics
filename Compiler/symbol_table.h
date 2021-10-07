@@ -1,5 +1,5 @@
-#ifndef SYMBOLIC_TABLE_H
-#define SYMBOLIC_TABLE_H
+#ifndef SYMBOL_TABLE_H
+#define SYMBOL_TABLE_H
 
 #include <unordered_map>
 #include <string>
@@ -20,8 +20,7 @@ public:
     int lookup(std::string varname);
     void update(std::string varname, int value);
     void enterBlock();
-    // Delete local variables from table on block exit
-    void exitBlock(const std::list<std::string>& localVariables);
+    void exitBlock();
 };
 
 #endif

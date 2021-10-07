@@ -1,3 +1,6 @@
+#ifndef RATIONAL_H
+#define RATIONAL_H
+
 #include <string>
 
 namespace Turtle
@@ -23,3 +26,5 @@ namespace Turtle
         friend Rational operator/(const Rational& r1, const Rational& r2);
     };
 }
+
+#endif

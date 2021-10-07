@@ -1,4 +1,4 @@
-#include "symbolic_table.h"
+#include "symbol_table.h"
 
 #include <unordered_map>
 #include <string>
@@ -29,12 +29,19 @@ void SymbolicTable::enterBlock()
     ++currBlocklevel;
 }
 
-void SymbolicTable::exitBlock(const std::list<std::string>& localVariables)
+// Delete local variables from table on block exit
+void SymbolicTable::exitBlock()
 {
-    for (auto& varname : localVariables) {
-        auto search{symbolicTable.find(varname)};
-        if (search != symbolicTable.end()) {
-            return search->second.pop_front();
+    auto it{symbolicTable.begin()};
+    while (it != symbolicTable.end()) {
+        if (it->second.front().second == currBlocklevel) {
+            it->second.pop_front();
+        }
+
+        if (it->second.empty()) {
+            it = symbolicTable.erase(it);
+        } else {
+            ++it;
         }
     }
     --currBlocklevel;
