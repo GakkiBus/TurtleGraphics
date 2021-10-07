@@ -1,8 +1,6 @@
 #include "mainwindow.h"
 #include "turtlescene.h"
 #include "parser.h"
-#include "turtlelang.h"
-#include "instruction.h"
 
 #include <QtWidgets>
 #include <list>

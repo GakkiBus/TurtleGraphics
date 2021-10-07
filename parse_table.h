@@ -1,7 +1,7 @@
 #ifndef PARSE_TABLE_H
 #define PARSE_TABLE_H
 
-#include "turtlelang.h"
+#include "grammar.h"
 
 #include <list>
 

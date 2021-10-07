@@ -19,11 +19,10 @@ find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
 add_executable(TurtleGraphics
     main.cpp
+    grammar.cpp
     parser.cpp
-    turtlelang.cpp
     mainwindow.cpp
     turtlescene.cpp
-    instruction.cpp
     symbolic_table.cpp
     lexer.cpp
     parse_table.cpp
