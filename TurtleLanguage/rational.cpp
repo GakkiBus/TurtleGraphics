@@ -36,32 +36,45 @@ void Rational::simplify()
     denominator /= gcd;
 }
 
-Rational operator+(const Rational& r1, const Rational& r2)
+namespace Turtle
 {
-    Rational sum{r1.getNumerator() * r2.getDenominator() + r1.getDenominator() * r2.getNumerator(), 
-                r1.getDenominator() * r2.getDenominator()};
-    sum.simplify();
-    return sum;
-}
+    Rational operator+(const Rational& r1, const Rational& r2)
+    {
+        Rational r{r1.getNumerator() * r2.getDenominator() + r1.getDenominator() * r2.getNumerator(), 
+                    r1.getDenominator() * r2.getDenominator()};
+        r.simplify();
+        return r;
+    }
 
-Rational operator-(const Rational& r1, const Rational& r2)
-{
-    Rational sum{r1.getNumerator() * r2.getDenominator() - r1.getDenominator() * r2.getNumerator(),
-                r1.getDenominator() * r2.getDenominator()};
-    sum.simplify();
-    return sum;
-}
+    Rational operator-(const Rational& r1, const Rational& r2)
+    {
+        Rational r{r1.getNumerator() * r2.getDenominator() - r1.getDenominator() * r2.getNumerator(),
+                    r1.getDenominator() * r2.getDenominator()};
+        r.simplify();
+        return r;
+    }
 
-Rational operator*(const Rational& r1, const Rational& r2)
-{
-    Rational sum{r1.getNumerator() * r2.getNumerator(), r1.getDenominator() * r2.getDenominator()};
-    sum.simplify();
-    return sum;
-}
+    Rational operator*(const Rational& r1, const Rational& r2)
+    {
+        Rational r{r1.getNumerator() * r2.getNumerator(), r1.getDenominator() * r2.getDenominator()};
+        r.simplify();
+        return r;
+    }
 
-Rational operator/(const Rational& r1, const Rational& r2)
-{
-    Rational sum{r1.getNumerator() * r2.getDenominator(), r1.getDenominator() * r2.getNumerator()};
-    sum.simplify();
-    return sum;
+    Rational operator/(const Rational& r1, const Rational& r2)
+    {
+        Rational r{r1.getNumerator() * r2.getDenominator(), r1.getDenominator() * r2.getNumerator()};
+        r.simplify();
+        return r;
+    }
+
+    bool operator<(const Rational& r1, const Rational& r2)
+    {
+        return r1.getNumerator() * r2.getDenominator() < r1.getDenominator() * r2.getNumerator();
+    }
+
+    bool operator==(const Rational& r1, const Rational& r2)
+    {
+        return r1.getNumerator() * r2.getDenominator() == r1.getDenominator() * r2.getNumerator();
+    }
 }

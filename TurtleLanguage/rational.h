@@ -24,6 +24,8 @@ namespace Turtle
         friend Rational operator-(const Rational& r1, const Rational& r2);
         friend Rational operator*(const Rational& r1, const Rational& r2);
         friend Rational operator/(const Rational& r1, const Rational& r2);
+        friend bool operator<(const Rational& r1, const Rational& r2);
+        friend bool operator==(const Rational& r1, const Rational& r2);
     };
 }
 
