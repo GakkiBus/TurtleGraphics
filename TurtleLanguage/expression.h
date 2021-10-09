@@ -13,7 +13,7 @@ namespace Turtle
     {
     public:
         virtual ~Expression() = default;
-        virtual Rational evaluate(const SymbolTable& table) = 0;
+        virtual Rational evaluate(SymbolTable& table) = 0;
     };
 
     class NumberExpression : public Expression
@@ -24,7 +24,7 @@ namespace Turtle
     public:
         NumberExpression(const Rational& n) : number{n} {}
         ~NumberExpression() {};
-        Rational evaluate(const SymbolTable& table);
+        Rational evaluate(SymbolTable& table);
     };
 
     class VarExpression : public Expression
@@ -35,7 +35,7 @@ namespace Turtle
     public:
         VarExpression(const std::string& id) : identifier{id} {}
         ~VarExpression() {};
-        Rational evaluate(const SymbolTable& table);
+        Rational evaluate(SymbolTable& table);
     };
 
     class PlusExpression : public Expression
@@ -48,7 +48,7 @@ namespace Turtle
         PlusExpression(std::unique_ptr<Expression> l, std::unique_ptr<Expression> r) 
             : leftOperand{std::move(l)}, rightOperand{std::move(r)} {}
         ~PlusExpression() {};
-        Rational evaluate(const SymbolTable& table);
+        Rational evaluate(SymbolTable& table);
     };
 
     class MinusExpression : public Expression
@@ -61,7 +61,7 @@ namespace Turtle
         MinusExpression(std::unique_ptr<Expression> l, std::unique_ptr<Expression> r) 
             : leftOperand{std::move(l)}, rightOperand{std::move(r)} {}
         ~MinusExpression() {};
-        Rational evaluate(const SymbolTable& table);
+        Rational evaluate(SymbolTable& table);
     };
 
     class MultExpression : public Expression
@@ -74,7 +74,7 @@ namespace Turtle
         MultExpression(std::unique_ptr<Expression> l, std::unique_ptr<Expression> r) 
             : leftOperand{std::move(l)}, rightOperand{std::move(r)} {}
         ~MultExpression() {};
-        Rational evaluate(const SymbolTable& table);
+        Rational evaluate(SymbolTable& table);
     };
 
     class DivExpression : public Expression
@@ -87,7 +87,7 @@ namespace Turtle
         DivExpression(std::unique_ptr<Expression> l, std::unique_ptr<Expression> r) 
             : leftOperand{std::move(l)}, rightOperand{std::move(r)} {}
         ~DivExpression() {};
-        Rational evaluate(const SymbolTable& table);
+        Rational evaluate(SymbolTable& table);
     };
 }
 
