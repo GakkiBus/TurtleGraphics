@@ -5,12 +5,12 @@
 
 using namespace Turtle;
 
-bool LessThanExpression::evaluate(const SymbolTable& table)
+bool LessThanExpression::evaluate(SymbolTable& table)
 {
     return leftOperand->evaluate(table) < rightOperand->evaluate(table);
 }
 
-bool EqualsExpression::evaluate(const SymbolTable& table)
+bool EqualsExpression::evaluate(SymbolTable& table)
 {
     return leftOperand->evaluate(table) == rightOperand->evaluate(table);
 }

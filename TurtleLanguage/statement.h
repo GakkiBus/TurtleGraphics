@@ -20,11 +20,11 @@ namespace Turtle
     class BlockStatement : public Statement
     {
     private:
-        std::list<std::unique_ptr<Statement>> body;
+        std::list<std::shared_ptr<Statement>> body;
 
     public:
-        BlockStatement(std::list<std::unique_ptr<Statement>> b)
-            : body{std::move(b)} {}
+        BlockStatement(std::list<std::shared_ptr<Statement>> b)
+            : body{b} {}
         ~BlockStatement() {};
         void execute(SymbolTable& table);
     };
@@ -44,11 +44,11 @@ namespace Turtle
     {
     private:
         const std::string identifier;
-        std::unique_ptr<Expression> expression;
+        std::shared_ptr<Expression> expression;
 
     public:
-        AssignmentStatement(const std::string& id, std::unique_ptr<Expression> e)
-            : identifier{id}, expression{std::move(e)} {}
+        AssignmentStatement(const std::string& id, std::shared_ptr<Expression> e)
+            : identifier{id}, expression{e} {}
         ~AssignmentStatement() {};
         void execute(SymbolTable& table);
     };
@@ -56,13 +56,13 @@ namespace Turtle
     class IfStatement : public Statement
     {
     private:
-        std::unique_ptr<BoolExpression> boolExpression;
-        std::unique_ptr<BlockStatement> ifBody;
-        std::unique_ptr<BlockStatement> elseBody;
+        std::shared_ptr<BoolExpression> boolExpression;
+        std::shared_ptr<Statement> ifBody;
+        std::shared_ptr<Statement> elseBody;
 
     public:
-        IfStatement(std::unique_ptr<BoolExpression> e, std::unique_ptr<BlockStatement> iB, std::unique_ptr<BlockStatement> eB)
-            : boolExpression{std::move(e)}, ifBody{std::move(iB)}, elseBody{std::move(eB)} {}
+        IfStatement(std::shared_ptr<BoolExpression> e, std::shared_ptr<Statement> iB, std::shared_ptr<Statement> eB)
+            : boolExpression{e}, ifBody{iB}, elseBody{eB} {}
         ~IfStatement() {};
         void execute(SymbolTable& table);
     };
@@ -70,12 +70,12 @@ namespace Turtle
     class WhileStatement : public Statement
     {
     private:
-        std::unique_ptr<BoolExpression> boolExpression;
-        std::unique_ptr<BlockStatement> body;
+        std::shared_ptr<BoolExpression> boolExpression;
+        std::shared_ptr<Statement> body;
 
     public:
-        WhileStatement(std::unique_ptr<BoolExpression> e, std::unique_ptr<BlockStatement> b)
-            : boolExpression{std::move(e)}, body{std::move(b)} {}
+        WhileStatement(std::shared_ptr<BoolExpression> e, std::shared_ptr<Statement> b)
+            : boolExpression{e}, body{b} {}
         ~WhileStatement() {};
         void execute(SymbolTable& table);
     };
@@ -85,11 +85,11 @@ namespace Turtle
     private:
         const std::string identifier;
         std::list<std::string> parameters;
-        std::unique_ptr<BlockStatement> body;
+        std::shared_ptr<Statement> body;
 
     public:
-        ProcedureStatement(const std::string id, std::list<std::string> p, std::unique_ptr<BlockStatement> b)
-            : identifier{id}, parameters{p}, body{std::move(b)} {}
+        ProcedureStatement(const std::string& id, std::list<std::string>& p, std::shared_ptr<Statement> b)
+            : identifier{id}, parameters{p}, body{b} {}
         ~ProcedureStatement() {};
         void execute(SymbolTable& table);
         void call(SymbolTable& table, const std::list<Rational>& arguments);
@@ -99,11 +99,11 @@ namespace Turtle
     {
     private:
         const std::string identifier;
-        std::list<std::unique_ptr<Expression>> arguments;
+        std::list<std::shared_ptr<Expression>> arguments;
 
     public:
-        CallStatement(const std::string id, std::list<std::unique_ptr<Expression>> a)
-            : identifier{id}, arguments{std::move(a)} {}
+        CallStatement(const std::string& id, std::list<std::shared_ptr<Expression>> a)
+            : identifier{id}, arguments{a} {}
         ~CallStatement() {};
         void execute(SymbolTable& table);
     };

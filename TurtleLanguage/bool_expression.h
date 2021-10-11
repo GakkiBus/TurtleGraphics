@@ -14,33 +14,33 @@ namespace Turtle
     {
     public:
         virtual ~BoolExpression() = default;
-        virtual bool evaluate(SymbolTable table) = 0;
+        virtual bool evaluate(SymbolTable& table) = 0;
     };
 
     class LessThanExpression : public BoolExpression
     {
     private:
-        std::unique_ptr<Expression> leftOperand;
-        std::unique_ptr<Expression> rightOperand;
+        std::shared_ptr<Expression> leftOperand;
+        std::shared_ptr<Expression> rightOperand;
 
     public:
-        LessThanExpression(std::unique_ptr<Expression> l, std::unique_ptr<Expression> r) 
-            : leftOperand{std::move(l)}, rightOperand{std::move(r)} {}
+        LessThanExpression(std::shared_ptr<Expression> l, std::shared_ptr<Expression> r) 
+            : leftOperand{l}, rightOperand{r} {}
         ~LessThanExpression() {};
-        bool evaluate(const SymbolTable& table);
+        bool evaluate(SymbolTable& table);
     };
 
     class EqualsExpression : public BoolExpression
     {
     private:
-        std::unique_ptr<Expression> leftOperand;
-        std::unique_ptr<Expression> rightOperand;
+        std::shared_ptr<Expression> leftOperand;
+        std::shared_ptr<Expression> rightOperand;
 
     public:
-        EqualsExpression(std::unique_ptr<Expression> l, std::unique_ptr<Expression> r) 
-            : leftOperand{std::move(l)}, rightOperand{std::move(r)} {}
+        EqualsExpression(std::shared_ptr<Expression> l, std::shared_ptr<Expression> r) 
+            : leftOperand{l}, rightOperand{r} {}
         ~EqualsExpression() {};
-        bool evaluate(const SymbolTable& table);
+        bool evaluate(SymbolTable& table);
     };
 }
 

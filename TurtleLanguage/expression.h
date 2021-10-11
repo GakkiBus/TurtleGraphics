@@ -41,12 +41,12 @@ namespace Turtle
     class PlusExpression : public Expression
     {
     private:
-        std::unique_ptr<Expression> leftOperand;
-        std::unique_ptr<Expression> rightOperand;
+        std::shared_ptr<Expression> leftOperand;
+        std::shared_ptr<Expression> rightOperand;
 
     public:
-        PlusExpression(std::unique_ptr<Expression> l, std::unique_ptr<Expression> r) 
-            : leftOperand{std::move(l)}, rightOperand{std::move(r)} {}
+        PlusExpression(std::shared_ptr<Expression> l, std::shared_ptr<Expression> r) 
+            : leftOperand{l}, rightOperand{r} {}
         ~PlusExpression() {};
         Rational evaluate(SymbolTable& table);
     };
@@ -54,12 +54,12 @@ namespace Turtle
     class MinusExpression : public Expression
     {
     private:
-        std::unique_ptr<Expression> leftOperand;
-        std::unique_ptr<Expression> rightOperand;
+        std::shared_ptr<Expression> leftOperand;
+        std::shared_ptr<Expression> rightOperand;
 
     public:
-        MinusExpression(std::unique_ptr<Expression> l, std::unique_ptr<Expression> r) 
-            : leftOperand{std::move(l)}, rightOperand{std::move(r)} {}
+        MinusExpression(std::shared_ptr<Expression> l, std::shared_ptr<Expression> r) 
+            : leftOperand{l}, rightOperand{r} {}
         ~MinusExpression() {};
         Rational evaluate(SymbolTable& table);
     };
@@ -67,12 +67,12 @@ namespace Turtle
     class MultExpression : public Expression
     {
     private:
-        std::unique_ptr<Expression> leftOperand;
-        std::unique_ptr<Expression> rightOperand;
+        std::shared_ptr<Expression> leftOperand;
+        std::shared_ptr<Expression> rightOperand;
 
     public:
-        MultExpression(std::unique_ptr<Expression> l, std::unique_ptr<Expression> r) 
-            : leftOperand{std::move(l)}, rightOperand{std::move(r)} {}
+        MultExpression(std::shared_ptr<Expression> l, std::shared_ptr<Expression> r) 
+            : leftOperand{l}, rightOperand{r} {}
         ~MultExpression() {};
         Rational evaluate(SymbolTable& table);
     };
@@ -80,12 +80,12 @@ namespace Turtle
     class DivExpression : public Expression
     {
     private:
-        std::unique_ptr<Expression> leftOperand;
-        std::unique_ptr<Expression> rightOperand;
+        std::shared_ptr<Expression> leftOperand;
+        std::shared_ptr<Expression> rightOperand;
 
     public:
-        DivExpression(std::unique_ptr<Expression> l, std::unique_ptr<Expression> r) 
-            : leftOperand{std::move(l)}, rightOperand{std::move(r)} {}
+        DivExpression(std::shared_ptr<Expression> l, std::shared_ptr<Expression> r) 
+            : leftOperand{l}, rightOperand{r} {}
         ~DivExpression() {};
         Rational evaluate(SymbolTable& table);
     };
