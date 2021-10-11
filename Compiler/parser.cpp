@@ -2,6 +2,7 @@
 #include "grammar.h"
 #include "parse_table.h"
 #include "lexer.h"
+#include "code_generation.h"
 
 #include <iostream>
 #include <set>
@@ -9,11 +10,10 @@
 
 const static std::set<Grammar::Symbol> keptSymbols{
     Grammar::MULT, Grammar::PLUS, Grammar::MINUS, Grammar::DIV,
-    Grammar::LESS_THAN, Grammar::EQUALITY, Grammar::DECLARE,
-    Grammar::FUNCTION, Grammar::IDENTIFIER, Grammar::IF, Grammar::NUMBER,
-    Grammar::PROCEDURE, Grammar::RETURN, Grammar::WHILE, Grammar::BLOCK_STMT, 
-    Grammar::BOOL_EXPR, Grammar::EXPR, Grammar::EXPRS, Grammar::FACTOR,
-    Grammar::FUNCTION_EXPR, Grammar::IDS, Grammar::STMT, Grammar::TERM, Grammar::VAR_EXPR
+    Grammar::LESS_THAN, Grammar::EQUALS, Grammar::CALL, Grammar::DECLARE,
+    Grammar::IDENTIFIER, Grammar::IF, Grammar::NUMBER, Grammar::PROCEDURE, 
+    Grammar::WHILE, Grammar::BLOCK_STMT, Grammar::BOOL_EXPR, Grammar::EXPR, 
+    Grammar::EXPRS, Grammar::FACTOR, Grammar::IDS, Grammar::STMT, Grammar::TERM
 };
 
 static bool isKept(Grammar::Symbol symbol)
@@ -21,11 +21,19 @@ static bool isKept(Grammar::Symbol symbol)
     return keptSymbols.find(symbol) != keptSymbols.end();
 }
 
+static void printParseTree(PTNode root, int depth)
+{
+    std::cerr << root.token.symbol << " [" << depth << "]\n"; 
+    for (auto& node : root.children) {
+        printParseTree(node, depth + 1);
+    }
+}
+
 PTNode Parser::parse()
 {
-    PTNode root{Token{Grammar::PROGRAM}};
+    PTNode root{Token{Grammar::BLOCK_STMT}};
     pushSymbol(Grammar::EOS, &root);
-    pushSymbol(Grammar::PROGRAM, &root);
+    pushSymbol(Grammar::BLOCK_STMT, &root);
 
     do {
         PTPush parseTop{parseStack.top()};
@@ -44,6 +52,9 @@ PTNode Parser::parse()
             break;
         }
     } while (!parseStack.empty());
+
+    printParseTree(root, 0);
+    generate(root);
 
     return root;
 }

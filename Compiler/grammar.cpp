@@ -14,11 +14,10 @@ bool Grammar::isTerminal(Symbol symbol)
 
 const static std::map<std::string, Symbol> symbols {
     {"if", IF}, {"else", ELSE}, {"while", WHILE}, {"procedure", PROCEDURE},
-    {"function", FUNCTION}, {"return", RETURN}, {"declare", DECLARE},
-    {"=", ASSIGNMENT}, {",", COMMA}, {";", SEMICOLON},
+    {"call", CALL}, {"declare", DECLARE}, {"=", ASSIGNMENT}, {",", COMMA}, {";", SEMICOLON},
     {"(", OPEN_ROUND_BRACKET}, {")", CLOSED_ROUND_BRACKET}, {"{", OPEN_CURLY_BRACKET},
-    {"}", CLOSED_CURLY_BRACKET}, {"==", EQUALITY}, {"<", LESS_THAN},
-    {"+", PLUS}, {"-", MINUS}, {"*", MULT}, {"/", DIV}, {"$", DOLLAR_SIGN}
+    {"}", CLOSED_CURLY_BRACKET}, {"==", EQUALS}, {"<", LESS_THAN},
+    {"+", PLUS}, {"-", MINUS}, {"*", MULT}, {"/", DIV}
 };
 
 int Grammar::strToSymbol(const std::string& str)

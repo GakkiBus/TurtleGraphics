@@ -87,7 +87,7 @@ Token Lexer::tokenizeSeparator()
 Token Lexer::tokenizeOperator()
 {
     std::string value{};
-    while (ispunct(parseStream.peek())) {
+    while (ispunct(parseStream.peek()) && !isSep(parseStream.peek())) {
         value += parseStream.get();
     }
     
