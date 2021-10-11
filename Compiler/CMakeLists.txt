@@ -3,6 +3,10 @@ add_library(Compiler
     lexer.cpp
     parser.cpp
     parse_table.cpp
-    symbol_table.cpp)
+    code_generation.cpp)
+
+target_link_libraries(Compiler 
+    LINK_PUBLIC TurtleLanguage 
+)
 
 target_include_directories(Compiler PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

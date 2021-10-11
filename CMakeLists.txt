@@ -9,11 +9,14 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-add_subdirectory(Application)
-add_subdirectory(Compiler)
-
 if (MSVC)
     add_compile_options(/W4 /WX)
 else()
     add_compile_options(-Wall -Wextra -pedantic -Werror)
 endif()
+
+find_package(Qt5 COMPONENTS Widgets REQUIRED)
+
+add_subdirectory(Application)
+add_subdirectory(Compiler)
+add_subdirectory(TurtleLanguage)
