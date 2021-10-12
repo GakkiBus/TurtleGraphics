@@ -35,7 +35,7 @@ namespace Turtle
         std::list<std::string> identifiers;
 
     public:
-        DeclareStatement(const std::list<std::string>& ids) : identifiers{ids} {}
+        DeclareStatement(const std::list<std::string> ids) : identifiers{ids} {}
         ~DeclareStatement() {};
         void execute(SymbolTable& table);
     };
@@ -88,7 +88,7 @@ namespace Turtle
         std::shared_ptr<Statement> body;
 
     public:
-        ProcedureStatement(const std::string& id, std::list<std::string>& p, std::shared_ptr<Statement> b)
+        ProcedureStatement(const std::string& id, std::list<std::string> p, std::shared_ptr<Statement> b)
             : identifier{id}, parameters{p}, body{b} {}
         ~ProcedureStatement() {};
         void execute(SymbolTable& table);

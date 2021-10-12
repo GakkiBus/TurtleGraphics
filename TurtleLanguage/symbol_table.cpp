@@ -24,13 +24,13 @@ tableEntry* SymbolTable::lookup(const std::string& id)
 void SymbolTable::addFunction(const std::string& id, Turtle::ProcedureStatement* procedure)
 {
     tableEntry entry{id, static_cast<int>(table.size()), true, procedure, Turtle::Rational(1, 1)};
-    table.back()->insert_or_assign(id, entry); 
+    (table.back())->insert_or_assign(id, entry); 
 }
 
 void SymbolTable::addVariable(const std::string& id)
 {
-    tableEntry entry{id, static_cast<int>(table.size()), false, nullptr, Turtle::Rational(1, 1)};
-    table.back()->insert_or_assign(id, entry); 
+    tableEntry entry{id, static_cast<int>(table.size()), false, nullptr, Turtle::Rational(0, 1)};
+    (table.back())->insert_or_assign(id, entry); 
 }
 
 void SymbolTable::updateVariable(const std::string& id, Turtle::Rational value)
@@ -46,7 +46,7 @@ void SymbolTable::updateVariable(const std::string& id, Turtle::Rational value)
 
 void SymbolTable::enterBlock()
 {
-    table.push_back(std::shared_ptr<std::unordered_map<std::string, tableEntry>>{});
+    table.push_back(std::make_shared<std::unordered_map<std::string, tableEntry>>(std::unordered_map<std::string, tableEntry>{}));
 }
 
 void SymbolTable::exitBlock()

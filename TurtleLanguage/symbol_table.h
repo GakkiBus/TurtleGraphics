@@ -27,6 +27,7 @@ private:
     Table table;
 
 public:
+    SymbolTable() : table{} {}
     SymbolTable(Table t) : table{t} {}
     tableEntry* lookup(const std::string& id);
     void addFunction(const std::string& id, Turtle::ProcedureStatement* procedure);

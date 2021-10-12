@@ -55,7 +55,7 @@ void ProcedureStatement::execute(SymbolTable& table)
 void ProcedureStatement::call(SymbolTable& table, const std::list<Rational>& arguments)
 {
    if (parameters.size() != arguments.size()) {
-       std::cerr << "Error while calling '" << identifier << "': required number of arguments is " << parameters.size() << " but given: " << arguments.size() << '\n';
+       std::cerr << "Error while calling '" << identifier << "': required number of arguments is " << parameters.size() << " but given " << arguments.size() << '\n';
        exit(1);
    }
 
@@ -66,6 +66,8 @@ void ProcedureStatement::call(SymbolTable& table, const std::list<Rational>& arg
     auto aIt{arguments.begin()};
     while (pIt != parameters.end() && aIt != arguments.end()) {
         table.updateVariable(*pIt, *aIt);
+        ++pIt;
+        ++aIt;
     }
     body->execute(table);
 

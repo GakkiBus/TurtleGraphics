@@ -21,13 +21,13 @@ static bool isKept(Grammar::Symbol symbol)
     return keptSymbols.find(symbol) != keptSymbols.end();
 }
 
-static void printParseTree(PTNode root, int depth)
-{
-    std::cerr << root.token.symbol << " [" << depth << "]\n"; 
-    for (auto& node : root.children) {
-        printParseTree(node, depth + 1);
-    }
-}
+/* static void printParseTree(PTNode root, int depth) */
+/* { */
+/*     std::cerr << root.token.symbol << " [" << depth << "]\n"; */ 
+/*     for (auto& node : root.children) { */
+/*         printParseTree(node, depth + 1); */
+/*     } */
+/* } */
 
 PTNode Parser::parse()
 {
@@ -49,12 +49,9 @@ PTNode Parser::parse()
             pushRule(ParseTable::rules[ParseTable::getEntry(parseTop.symbol, inputTop.symbol)], parent);
         } else {
             std::cerr << "Syntax error: " << inputTop.symbol << '\n';
-            break;
+            exit(1);
         }
     } while (!parseStack.empty());
-
-    printParseTree(root, 0);
-    generate(root);
 
     return root;
 }
