@@ -11,3 +11,7 @@ CTestTestfile.cmake
 _deps
 TurtleGraphics
 TurtleGraphics_autogen
+Compiler/Compiler_autogen
+Compiler/libCompiler.a
+TurtleLanguage/TurtleLanguage_autogen
+TurtleLanguage/libTurtleLanguage.a

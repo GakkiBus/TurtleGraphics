@@ -20,3 +20,6 @@ find_package(Qt5 COMPONENTS Widgets REQUIRED)
 add_subdirectory(Application)
 add_subdirectory(Compiler)
 add_subdirectory(TurtleLanguage)
+
+set_target_properties(TurtleGraphics
+    PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
