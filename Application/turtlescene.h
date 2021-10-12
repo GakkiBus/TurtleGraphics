@@ -16,9 +16,9 @@ public:
     void reset();
     void penDown();
     void penUp();
-    void movePenX(int deltaX);
-    void movePenY(int deltaY);
-    void setRotationAngle(int angle);
+    void movePenX(double deltaX);
+    void movePenY(double deltaY);
+    void setRotationAngle(double angle);
 
 private:
     // amount of pixels moved per instruction unit
@@ -32,7 +32,7 @@ private:
     QPointF penLocation;
     int rotationAngle;
 
-    void movePen(int deltaX, int deltaY, int angleOffset);
+    void movePen(double deltaX, double deltaY, double angleOffset);
 };
 
 #endif
