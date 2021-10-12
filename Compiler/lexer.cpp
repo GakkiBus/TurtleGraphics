@@ -58,7 +58,7 @@ Token Lexer::tokenizeNumber()
 Token Lexer::tokenizeKeywordOrIdentifier()
 {
     std::string value{};
-    while (isalnum(parseStream.peek())) {
+    while (isalnum(parseStream.peek()) || parseStream.peek() == '_') {
         value += parseStream.get();
     }
 
