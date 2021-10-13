@@ -4,41 +4,43 @@ A simple GUI Application for drawing [turtle graphics](https://en.wikipedia.org/
 
 # Language
 
-Drawing is done by specifying movement instructions on a pen which are written in a textbox. More precisely, instruction are separated by new lines and consist of an identifier and zero or more arguments. 
+Drawing is done by specifying movement instructions on a pen which are written in a textbox. In addition, higher level control structures such as conditionals, loops and procedures are supported.
 
 ### Syntax
 ```
-<instruction> ::= <halt-instruction> | <pen-instruction> | <move-instruction> | <var-instruction>
+<program> ::= <block-statement>
+<block-statement> ::= { <list of statements> }
+<statement> ::= <declare-statement>
+                | <assignment-statement>
+                | <if-statement>
+                | <while-statement>
+                | <procedure-statement>
+                | <call-statement>
+                | <block-statement>
+<declare-statement> ::= declare <comma-list of identifiers> ;
+<assignment-statement> ::= <identifier> = <expression> ;
+<if-statement> ::= if ( <bool-expression> ) <block-statement> else <block-statement>
+<while-statement> ::= while ( <bool-expression> ) <block-statement>
+<procedure-statement> ::= procedure <identifier> ( <comma-list of identifiers> ) <block-statement>
+<call-statement> ::= call <identifier> ( <comma-list of expressions> ) ;
 
-<halt-instruction> ::= <halt-identifier>
-<halt-identifier> ::= HALT
-
-<pen-instruction> ::= <pen-identifier>
-<pen-identifier> ::= D | U
-
-<move-instruction> ::= <move-identifier> <literal>
-<move-identifier> ::= N | E | S | W | R
-
-<var-instruction> ::= <var-identifier> <varname> <literal>
-<var-identifier> ::= SET | INC | DEC
-<varname> ::= <non-empty string>
-
-<literal> ::= $<non-empty string> | <integer>
+<bool-expression> ::= <expression> == <expression> | <expression> < <expression>
+<expression> ::= <number> | <identifier> | ( <expression> ) | <expression> <operator> <expression>
+<operator> ::= + | - | * | /
+<number> ::= <interger> [ % <integer> ]
+<identifier> ::= <alphabetic letter> <string of chars>
 ```
 
 ### Semantics
+The semantics of statements are identical to their pendant in other languages such as C or Java. Drawing is done by calling one of the following prebuilt procedures.
 | Identifier    | Description                 |
 | :-----------: | :-------------------------- |
-| U             | lift pen                    |
-| D             | lower pen                   |
-| N             | move pen up                 |
-| E             | move pen right              |
-| S             | move pen down               |
-| W             | move pen left               |
-| R             | change angle                |
-| SET           | set value of variable       |
-| INC           | increment value of variable |
-| DEC           | decrement value of variable |
+| pen_up()      | lift pen                    |
+| pen_down()    | lower pen                   |
+| move(x)       | move pen by x units         |
+| rotate(x)     | rotate pen by x units       |
+
+Rationals are the only supported data type where the optional denominator is separated by '%' from the numerator.
 
  # Building
  
