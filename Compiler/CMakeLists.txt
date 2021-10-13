@@ -3,7 +3,8 @@ add_library(Compiler
     lexer.cpp
     parser.cpp
     parse_table.cpp
-    code_generation.cpp)
+    code_generation.cpp
+    compiler.cpp)
 
 target_link_libraries(Compiler 
     LINK_PUBLIC TurtleLanguage 

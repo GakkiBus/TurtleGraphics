@@ -1,7 +1,7 @@
 #include "parse_table.h"
 #include "grammar.h"
 
-#include<list>
+#include <list>
 
 using namespace Grammar;
 

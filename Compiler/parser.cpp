@@ -2,7 +2,6 @@
 #include "grammar.h"
 #include "parse_table.h"
 #include "lexer.h"
-#include "code_generation.h"
 
 #include <iostream>
 #include <set>
@@ -21,14 +20,6 @@ static bool isKept(Grammar::Symbol symbol)
     return keptSymbols.find(symbol) != keptSymbols.end();
 }
 
-/* static void printParseTree(PTNode root, int depth) */
-/* { */
-/*     std::cerr << root.token.symbol << " [" << depth << "]\n"; */ 
-/*     for (auto& node : root.children) { */
-/*         printParseTree(node, depth + 1); */
-/*     } */
-/* } */
-
 PTNode Parser::parse()
 {
     PTNode root{Token{Grammar::BLOCK_STMT}};
@@ -38,11 +29,11 @@ PTNode Parser::parse()
     do {
         PTPush parseTop{parseStack.top()};
         parseStack.pop();
-        Token inputTop{lexer.peek()};
+        Token inputTop{lexer->peek()};
 
         if (Grammar::isTerminal(parseTop.symbol) && parseTop.symbol == inputTop.symbol) {
             insertIntoParseTree(parseTop, inputTop);
-            lexer.next();
+            lexer->next();
         } else if (!Grammar::isTerminal(parseTop.symbol) 
                 && ParseTable::getEntry(parseTop.symbol, inputTop.symbol) != -1) {
             PTNode* parent = insertIntoParseTree(parseTop, Token{parseTop.symbol});

@@ -5,7 +5,6 @@
 #include "rational.h"
 #include "symbol_table.h"
 
-#include <string>
 #include <memory>
 
 namespace Turtle

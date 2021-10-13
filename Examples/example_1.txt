@@ -1,6 +1,6 @@
 {
 procedure koch_curve(iter, length)
-  {
+{
   if (iter == 0) { call move(length); }
   else 
   {
@@ -17,12 +17,13 @@ procedure koch_curve(iter, length)
 }
 
 procedure koch_snowflake(iter, length)
-  {
+{
   call koch_curve(iter, length);
   call rotate(0 - 120);
   call koch_curve(iter, length);
   call rotate(0 - 120);
   call koch_curve(iter, length);
-  }
-call koch_snowflake(4, 500);
+}
+
+call koch_snowflake(4, 800);
 }

@@ -23,13 +23,13 @@ tableEntry* SymbolTable::lookup(const std::string& id)
 
 void SymbolTable::addFunction(const std::string& id, Turtle::ProcedureStatement* procedure)
 {
-    tableEntry entry{id, static_cast<int>(table.size()), true, procedure, Turtle::Rational(1, 1)};
+    tableEntry entry{id, static_cast<int>(table.size()), true, procedure, Turtle::Rational()};
     (table.back())->insert_or_assign(id, entry); 
 }
 
 void SymbolTable::addVariable(const std::string& id)
 {
-    tableEntry entry{id, static_cast<int>(table.size()), false, nullptr, Turtle::Rational(0, 1)};
+    tableEntry entry{id, static_cast<int>(table.size()), false, nullptr, Turtle::Rational()};
     (table.back())->insert_or_assign(id, entry); 
 }
 

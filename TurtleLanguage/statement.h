@@ -23,7 +23,7 @@ namespace Turtle
         std::list<std::shared_ptr<Statement>> body;
 
     public:
-        BlockStatement(std::list<std::shared_ptr<Statement>> b)
+        BlockStatement(const std::list<std::shared_ptr<Statement>>& b)
             : body{b} {}
         ~BlockStatement() {};
         void execute(SymbolTable& table);
@@ -32,10 +32,10 @@ namespace Turtle
     class DeclareStatement : public Statement
     {
     private:
-        std::list<std::string> identifiers;
+        const std::list<std::string> identifiers;
 
     public:
-        DeclareStatement(const std::list<std::string> ids) : identifiers{ids} {}
+        DeclareStatement(const std::list<std::string>& ids) : identifiers{ids} {}
         ~DeclareStatement() {};
         void execute(SymbolTable& table);
     };
@@ -84,11 +84,11 @@ namespace Turtle
     {
     private:
         const std::string identifier;
-        std::list<std::string> parameters;
+        const std::list<std::string> parameters;
         std::shared_ptr<Statement> body;
 
     public:
-        ProcedureStatement(const std::string& id, std::list<std::string> p, std::shared_ptr<Statement> b)
+        ProcedureStatement(const std::string& id, const std::list<std::string>& p, std::shared_ptr<Statement> b)
             : identifier{id}, parameters{p}, body{b} {}
         ~ProcedureStatement() {};
         void execute(SymbolTable& table);
@@ -102,7 +102,7 @@ namespace Turtle
         std::list<std::shared_ptr<Expression>> arguments;
 
     public:
-        CallStatement(const std::string& id, std::list<std::shared_ptr<Expression>> a)
+        CallStatement(const std::string& id, const std::list<std::shared_ptr<Expression>>& a)
             : identifier{id}, arguments{a} {}
         ~CallStatement() {};
         void execute(SymbolTable& table);

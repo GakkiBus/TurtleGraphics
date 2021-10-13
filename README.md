@@ -27,26 +27,27 @@ Drawing is done by specifying movement instructions on a pen which are written i
 <bool-expression> ::= <expression> == <expression> | <expression> < <expression>
 <expression> ::= <number> | <identifier> | ( <expression> ) | <expression> <operator> <expression>
 <operator> ::= + | - | * | /
-<number> ::= <interger> [ % <integer> ]
+<number> ::= <integer> [ % <integer> ]
 <identifier> ::= <alphabetic letter> <string of chars>
 ```
 ### Semantics
-The semantics of statements are identical to their pendant in other languages such as C or Java. Drawing is done by calling one of the following prebuilt procedures.
+
+The semantics of statements are identical to their pendant in other languages such as C or Java. Drawing is done by calling one of the following prebuilt procedures:
 | Identifier    | Description                 |
 | :-----------: | :-------------------------- |
-| pen_up()      | lift pen                    |
-| pen_down()    | lower pen                   |
+| pen\_up()     | lift pen                    |
+| pen\_down()   | lower pen                   |
 | move(x)       | move pen by x units         |
 | rotate(x)     | rotate pen by x units       |
 
 Rationals are the only supported data type where the optional denominator is separated by '%' from the numerator.
 
- # Building
+# Building
  
  To build the project you need
   * C++17 compatible compiler
   * CMake 3.16.0+
   * Qt5
 
- # Images
- ![example_1.png](Examples/example_1.png)
+# Images
+ ![example\_1.png](Examples/example_1.png)

@@ -3,8 +3,8 @@
 
 #include <sstream>
 #include <string>
+#include <string_view>
 #include <iostream>
-#include <map>
 
 static bool isSep(char c);
 
@@ -27,7 +27,7 @@ void Lexer::next()
 Token Lexer::tokenize()
 {
     parseStream >> std::ws;
-    if (parseStream.eof()) { return Token{Grammar::EOS, ""}; }
+    if (parseStream.eof()) { return Token{Grammar::EOS}; }
     
     int c{parseStream.peek()};
     if (isdigit(c) || c == '%') {

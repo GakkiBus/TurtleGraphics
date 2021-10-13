@@ -12,7 +12,7 @@ bool Grammar::isTerminal(Symbol symbol)
     return symbol < NUMBER_OF_TERMINALS;
 }
 
-const static std::map<std::string, Symbol> symbols {
+const static std::map<std::string_view, Symbol> symbols {
     {"if", IF}, {"else", ELSE}, {"while", WHILE}, {"procedure", PROCEDURE},
     {"call", CALL}, {"declare", DECLARE}, {"=", ASSIGNMENT}, {",", COMMA}, {";", SEMICOLON},
     {"(", OPEN_ROUND_BRACKET}, {")", CLOSED_ROUND_BRACKET}, {"{", OPEN_CURLY_BRACKET},

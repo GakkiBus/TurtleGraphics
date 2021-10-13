@@ -1,8 +1,7 @@
 #include "mainwindow.h"
 #include "turtlescene.h"
-#include "parser.h"
+#include "compiler.h"
 #include "statement.h"
-#include "code_generation.h"
 #include "turtle_statement.h"
 #include "symbol_table.h"
 
@@ -56,8 +55,7 @@ void MainWindow::onButtonReleased()
     Turtle::ProcedureStatement rotate{"rotate", std::list<std::string>{"x"}, std::make_shared<RotateStatement>(RotateStatement{turtleScene})};
     mainBody.push_back(std::make_shared<Turtle::ProcedureStatement>(rotate));
 
-    Parser parser{instructionEdit->toPlainText().toStdString()};
-    std::shared_ptr<Turtle::Statement> code{generate(parser.parse())};
+    std::shared_ptr<Turtle::Statement> code{compile(instructionEdit->toPlainText().toStdString())};
     mainBody.push_back(code);
     Turtle::BlockStatement main{mainBody};
     SymbolTable table{};

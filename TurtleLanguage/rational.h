@@ -12,6 +12,7 @@ namespace Turtle
         int denominator;
         
     public:
+        Rational() : numerator{0}, denominator{1} {}
         Rational(int n, int d) : numerator{n}, denominator{d} {}
         Rational(const std::string& str);
         int getNumerator() const { return numerator; }

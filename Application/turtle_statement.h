@@ -5,8 +5,6 @@
 #include "symbol_table.h"
 #include "rational.h"
 
-#include <string>
-
 class TurtleScene;
 
 class PenUpStatement : public Turtle::Statement

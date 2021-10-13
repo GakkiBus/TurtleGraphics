@@ -20,7 +20,7 @@ void MoveStatement::execute(SymbolTable& table)
 {
     tableEntry* search{table.lookup("x")};
     if (search != nullptr && !(search->isProcedure)) {
-        scene->movePenY(-(search->value).toDouble());
+        scene->movePenX((search->value).toDouble());
     } else {
         std::cerr << "Error looking up variable '" << "x" << "'\n";
         exit(1);
