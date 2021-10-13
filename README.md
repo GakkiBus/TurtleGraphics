@@ -30,7 +30,6 @@ Drawing is done by specifying movement instructions on a pen which are written i
 <number> ::= <interger> [ % <integer> ]
 <identifier> ::= <alphabetic letter> <string of chars>
 ```
-
 ### Semantics
 The semantics of statements are identical to their pendant in other languages such as C or Java. Drawing is done by calling one of the following prebuilt procedures.
 | Identifier    | Description                 |
@@ -48,3 +47,6 @@ Rationals are the only supported data type where the optional denominator is sep
   * C++17 compatible compiler
   * CMake 3.16.0+
   * Qt5
+
+ # Images
+ ![example_1.png](Examples/example_1.png)
